@@ -1,12 +1,17 @@
 module About
   extend Discordrb::Commands::CommandContainer
 
-  command(%i[help commands about]) do |event|
+  command(%i[help about]) do |event|
     begin
       event.channel.send_embed do |embed|
         embed.title = 'Welcome to the HQ Discord Bot'
         embed.colour = '36399A'
-        embed.description = 'The HQ bot allows you to answer questions!'
+        embed.description = 'The HQ bot allows you to get statistics about the game!'
+
+        embed.add_field(name: 'Commands', value: 'Command list can be found with `hq, commands`', inline: true)
+        embed.add_field(name: 'Invite me!', value: 'You can invite me to your server with [this link](https://discordapp.com/api/oauth2/authorize?client_id=463127758143225874&permissions=18432&scope=bot).', inline: true)
+        embed.add_field(name: 'Help Server', value: 'Click [me](https://discord.gg/59N3FcX) to join the help server.', inline: true)
+        embed.add_field(name: 'More Bot Stats', value: 'Run `hq, stats` to see more stats!', inline: true)
       end
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowski here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
@@ -23,7 +28,7 @@ module About
   end
 
   command(:invite) do |event|
-    event.respond 'Hello! Invite me to your server here: <http://bit.ly/Chewbotcca>. Join my help server here: https://discord.gg/Q8TazNz'
+    event.respond 'Hello! Invite me to your server here: <https://discordapp.com/api/oauth2/authorize?client_id=463127758143225874&permissions=18432&scope=bot>. Join my help server here: https://discord.gg/59N3FcX'
   end
 
   command(:stats) do |event|
@@ -49,7 +54,7 @@ module About
 
     begin
       event.channel.send_embed do |e|
-        e.title = 'HQ - A trivia bot!'
+        e.title = 'HQ Trivia Bot Stats!'
 
         e.add_field(name: 'Author', value: '<@116013677060161545>', inline: true)
         e.add_field(name: 'Code', value: '[View code on GitHub](http://github.com/Chewsterchew/HQ-DiscordBot)', inline: true)
@@ -61,7 +66,7 @@ module About
         e.color = '36399A'
       end
     rescue Discordrb::Errors::NoPermission
-      event.respond "SYSTEM ERRor, I CANNot SEND THE EMBED, EEEEE. Can I please have the 'Embed Links' permission? Thanks, appriciate ya."
+      event.respond 'Hey, Scott Rogowski here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end
   end
 
@@ -84,7 +89,7 @@ module About
         e.color = '36399A'
       end
     rescue Discordrb::Errors::NoPermission
-      event.respond "SYSTEM ERRor, I CANNot SEND THE EMBED, EEEEE. Can I please have the 'Embed Links' permission? Thanks, appriciate ya."
+      event.respond 'Hey, Scott Rogowski here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end
   end
 end

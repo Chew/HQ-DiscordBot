@@ -35,7 +35,8 @@ module About
 
         embed.add_field(name: 'HQ Stats Commands', value: [
           '`hq, rank` - Find weekly/all-time rankings. Add arg `all` for all time.',
-          '`hq, user (name)` - Find stats for a user, leave name blank to just use your discord nick/user name'
+          '`hq, user (name)` - Find stats for a user, leave name blank to just use your discord nick/user name',
+          '`hq, nextgame` - Find the next game time and prize'
         ].join("\n"), inline: true)
       end
     rescue Discordrb::Errors::NoPermission

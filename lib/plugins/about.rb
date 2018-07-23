@@ -18,6 +18,30 @@ module About
     end
   end
 
+  command(:commands) do |event|
+    begin
+      event.channel.send_embed do |embed|
+        embed.title = 'HQ Discord Bot Commands'
+        embed.colour = '36399A'
+
+        embed.add_field(name: 'Basic Commands', value: [
+          '`hq, help` - Find bot help',
+          '`hq, commands` - Find bot commands',
+          '`hq, ping` - Ping the bot',
+          '`hq, invite` - Invite the bot',
+          '`hq, stats` - Find stats on the bot',
+          '`hq, lib` - HQ Bot Open-Source Libraries'
+        ].join("\n"), inline: true)
+
+        embed.add_field(name: 'HQ Stats Commands', value: [
+          '`hq, rank` - Find weekly/all-time rankings. Add arg `all` for all time.'
+        ].join("\n"), inline: true)
+      end
+    rescue Discordrb::Errors::NoPermission
+      event.respond 'Hey, Scott Rogowski here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
+    end
+  end
+
   command(:ping, min_args: 0, max_args: 1) do |event, noedit|
     if noedit == 'noedit'
       event.respond "Pong! Time taken: #{((Time.now - event.timestamp) * 1000).to_i} milliseconds."

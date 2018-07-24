@@ -21,6 +21,7 @@ module User
       rescue Discordrb::Errors::NoPermission
         event.respond 'That user doesn\'t exist!'
       end
+      break
     end
 
     id = iddata[0]['userId']

@@ -33,7 +33,7 @@ module User
 
     begin
       event.channel.send_embed do |embed|
-        embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "User stats for #{name}", url: data['referralUrl'])
+        embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "User stats for #{data['username']}", url: data['referralUrl'])
         embed.colour = '36399A'
 
         embed.add_field(name: 'Game Stats', value: [

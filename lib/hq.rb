@@ -4,10 +4,18 @@ require 'json'
 require 'yaml'
 require 'nokogiri'
 require 'open-uri'
+require 'dblruby'
+require 'listcordrb'
 puts 'All dependencies loaded'
 
 CONFIG = YAML.load_file('config.yaml')
 puts 'Config loaded from file'
+
+DBL = DBLRuby.new(CONFIG['dbotsorg'], CONFIG['client_id'])
+puts 'Properly Instantiated DBL!'
+
+LC = ListCordRB.new(CONFIG['listcord'], CONFIG['client_id'])
+puts 'Properly Instantiated ListCord!'
 
 Bot = Discordrb::Commands::CommandBot.new token: CONFIG['token'],
                                           client_id: CONFIG['client_id'],
@@ -29,6 +37,8 @@ Dir["#{File.dirname(__FILE__)}/plugins/*.rb"].each do |wow|
 end
 
 Bot.server_create do |event|
+  DBL.stats.updateservercount(event.bot.servers.count) unless CONFIG['dbotsorg'].nil?
+  LC.stats.servers = event.bot.servers.count unless CONFIG['listcord'].nil?
   Bot.channel(471_092_848_238_788_608).send_embed do |e|
     e.title = 'I did a join'
 
@@ -47,6 +57,8 @@ Bot.server_create do |event|
 end
 
 Bot.server_delete do |event|
+  DBL.stats.updateservercount(event.bot.servers.count) unless CONFIG['dbotsorg'].nil?
+  LC.stats.servers = event.bot.servers.count unless CONFIG['listcord'].nil?
   Bot.channel(471_092_848_238_788_608).send_embed do |e|
     e.title = 'I did a leave'
 

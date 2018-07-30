@@ -48,9 +48,9 @@ module User
           "Win Count - #{data['winCount']}"
         ].join("\n"), inline: true)
 
-        embed.add_field(name: 'Amount Won:', value: data['leaderboard']['total'], inline: true)
+        embed.add_field(name: 'Amount Won', value: data['leaderboard']['total'], inline: true)
 
-        embed.add_field(name: 'High Score:', value: "#{data['highScore']} questions", inline: true)
+        embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
 
         embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Account created on')
         embed.timestamp = Time.parse(data['created'])

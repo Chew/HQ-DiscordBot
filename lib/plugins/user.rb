@@ -2,7 +2,13 @@ module User
   extend Discordrb::Commands::CommandContainer
 
   command(:user, min_args: 0, max_args: 1) do |event, name|
-    name = event.user.nickname || event.user.name if name.nil?
+    filename = "profiles/#{event.user.id}.yaml"
+    if File.exist?(filename) && name.nil?
+      data = YAML.load_file(filename)
+      name = data['username']
+    else
+      name = event.user.nickname || event.user.name
+    end
 
     findid = RestClient.get('https://api-quiz.hype.space/users',
                             params: { q: name },

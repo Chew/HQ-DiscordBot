@@ -31,13 +31,19 @@ module About
           '`hq, invite` - Invite the bot',
           '`hq, stats` - Find stats on the bot',
           '`hq, lib` - HQ Bot Open-Source Libraries'
-        ].join("\n"), inline: true)
+        ].join("\n"), inline: false)
 
         embed.add_field(name: 'HQ Stats Commands', value: [
           '`hq, rank` - Find weekly/all-time rankings. Add arg `all` for all time.',
           '`hq, user (name)` - Find stats for a user, leave name blank to just use your discord nick/user name',
-          '`hq, nextgame` - Find the next game time and prize'
-        ].join("\n"), inline: true)
+          '`hq, nextgame (us/uk/de/au)` - Find the next game time and prize, give argument for different regions'
+        ].join("\n"), inline: false)
+
+        embed.add_field(name: 'HQ Bot Profile Commands', value: [
+          '`hq, profile` - See your profile.',
+          '`hq, set username (name)` - Set your username, so that `hq, user` returns your stats.',
+          '`hq, set region (us/uk/de/au)` - Set your region, so that `hq, nextgame` returns your region'
+        ].join("\n"), inline: false)
       end
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowski here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'

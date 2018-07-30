@@ -1,7 +1,15 @@
 module RandomQuestion
   extend Discordrb::Commands::CommandContainer
 
-  command(%i[nextgame next game]) do |event, region = 'us'|
+  command(%i[nextgame next game]) do |event, region|
+    filename = "profiles/#{event.user.id}.yaml"
+    if File.exist?(filename) && region.nil?
+      data = YAML.load_file(filename)
+      region = data['region']
+    else
+      region = 'us'
+    end
+
     case region.downcase
     when 'us'
       key = CONFIG['api']

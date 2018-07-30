@@ -5,8 +5,10 @@ module RandomQuestion
     case region.downcase
     when 'us'
       key = CONFIG['api']
-    when 'uk', 'de'
-      event.respond "UK and Germany times are not supported yet!"
+    when 'uk'
+      key = CONFIG['apiuk']
+    when 'de'
+      event.respond "Germany times are not supported yet!"
     when 'au'
       key = CONFIG['apiau']
     end

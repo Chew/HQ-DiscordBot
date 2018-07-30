@@ -12,14 +12,18 @@ module Profile
 
     data = YAML.load_file(filename)
 
-    event.channel.send_embed do |embed|
-      embed.title = "HQBot Profile for #{event.user.name}"
-      embed.colour = '36399A'
+    begin
+      event.channel.send_embed do |embed|
+        embed.title = "HQBot Profile for #{event.user.name}"
+        embed.colour = '36399A'
 
-      embed.add_field(name: 'HQ Username', value: data['username'], inline: true)
-      embed.add_field(name: 'Region', value: data['region'], inline: true)
+        embed.add_field(name: 'HQ Username', value: data['username'], inline: true)
+        embed.add_field(name: 'Region', value: data['region'], inline: true)
 
-      embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Change with: hq, set [type] [option]')
+        embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Change with: hq, set [type] [option]')
+      end
+    rescue Discordrb::Errors::NoPermission
+      event.respond 'Hey, Scott Rogowski here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end
   end
 

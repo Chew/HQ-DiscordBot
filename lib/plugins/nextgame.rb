@@ -1,10 +1,18 @@
 module RandomQuestion
   extend Discordrb::Commands::CommandContainer
 
-  command(%i[nextgame next game]) do |event|
+  command(%i[nextgame next game]) do |event, region = 'us'|
+    case region.downcase
+    when 'us'
+      key = CONFIG['api']
+    when 'uk', 'de'
+      event.respond "UK and Germany times are not supported yet!"
+    when 'au'
+      key = CONFIG['apiau']
+    end
     data = RestClient.get('https://api-quiz.hype.space/shows/now',
                           params: { type: 'hq' },
-                          Authorization: CONFIG['api'],
+                          Authorization: key,
                           'Content-Type': :json)
 
     data = JSON.parse(data)

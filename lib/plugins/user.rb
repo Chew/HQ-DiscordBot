@@ -6,7 +6,7 @@ module User
     if File.exist?(filename) && name.nil?
       data = YAML.load_file(filename)
       name = data['username']
-    else
+    elsif name.nil?
       name = event.user.nickname || event.user.name
     end
 

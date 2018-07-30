@@ -6,7 +6,7 @@ module NextGame
     if File.exist?(filename) && region.nil?
       data = YAML.load_file(filename)
       region = data['region']
-    else
+    elsif region.nil?
       region = 'us'
     end
 

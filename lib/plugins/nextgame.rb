@@ -1,4 +1,4 @@
-module RandomQuestion
+module NextGame
   extend Discordrb::Commands::CommandContainer
 
   command(%i[nextgame next game]) do |event, region|

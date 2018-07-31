@@ -1,12 +1,13 @@
 module User
   extend Discordrb::Commands::CommandContainer
 
-  command(:user, min_args: 0, max_args: 1) do |event, name|
+  command(:user, min_args: 0) do |event, *name|
+    name = name.join(' ') unless name.length.zero?
     filename = "profiles/#{event.user.id}.yaml"
-    if File.exist?(filename) && name.nil?
+    if File.exist?(filename) && name.length.zero?
       data = YAML.load_file(filename)
       name = data['username']
-    elsif name.nil?
+    elsif name.length.zero?
       name = event.user.nickname || event.user.name
     end
 

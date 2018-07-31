@@ -27,7 +27,8 @@ module Profile
     end
   end
 
-  command(:set) do |event, type, setting|
+  command(:set) do |event, type, *setting|
+    setting = setting.join(' ')
     filename = "profiles/#{event.user.id}.yaml"
     unless File.exist?(filename)
       File.new(filename, 'w+')

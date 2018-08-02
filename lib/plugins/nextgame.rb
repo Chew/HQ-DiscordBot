@@ -16,7 +16,7 @@ module NextGame
     when 'uk'
       key = CONFIG['apiuk']
     when 'de'
-      event.respond "Germany times are not supported yet!"
+      key = CONFIG['apide']
     when 'au'
       key = CONFIG['apiau']
     end

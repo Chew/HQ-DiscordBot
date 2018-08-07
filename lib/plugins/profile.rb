@@ -17,12 +17,9 @@ module Profile
     perks += ['Auth Key Donor'] if data['authkey']
     perks += ['Bug Hunter'] if data['bughunter']
 
-    case data['extra']
-    when true
-      ex = 'Enabled!'
-    else
-      ex = 'Disabled!'
-    end
+    extras = []
+    extras += ['Extra Lives'] if data['lives']
+    extras += ['Streak Info'] if data['streaks']
 
     begin
       event.channel.send_embed do |embed|
@@ -31,7 +28,7 @@ module Profile
 
         embed.add_field(name: 'HQ Username', value: data['username'], inline: true)
         embed.add_field(name: 'Region', value: data['region'], inline: true)
-        embed.add_field(name: 'Extra User Stats', value: ex, inline: true) unless data['authkey'].nil? || data['authkey'] == false
+        embed.add_field(name: 'Extra User Stats', value: extras.join("\n"), inline: true) unless extras.length.zero?
         embed.add_field(name: 'Special Perks', value: perks.join("\n"), inline: true) unless perks.length.zero?
 
         embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Change with: hq, set [type] [option]')
@@ -54,11 +51,11 @@ module Profile
     case type.downcase
     when 'username', 'region'
       data[type.downcase] = setting
-    when 'extra'
+    when 'lives', 'streaks'
       if data['authkey']
         data[type.downcase] = setting == 'true'
       else
-        event.respond ':-1: Unable to set: You must be an AuthKey donator to use this command!'
+        event.respond ':-1: Unable to set: You must be an AuthKey donator to use this type!'
         break
       end
     else

@@ -19,7 +19,7 @@ puts 'Properly Instantiated ListCord!'
 
 Bot = Discordrb::Commands::CommandBot.new token: CONFIG['token'],
                                           client_id: CONFIG['client_id'],
-                                          prefix: ["<@#{CONFIG['client_id']}> ", 'hq, ', 'HQ, ', 'hq,', 'HQ,', 'hq', 'HQ'],
+                                          prefix: ["<@#{CONFIG['client_id']}> ", 'hq, ', 'HQ, ', 'hq,', 'HQ,', 'hq', 'HQ', 'Hq, ', 'Hq ', 'Hq', 'Hq,'],
                                           ignore_bots: true
 
 puts 'Initial Startup complete, loading all plugins...'

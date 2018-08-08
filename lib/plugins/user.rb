@@ -5,8 +5,8 @@ module User
     name = name.join(' ') unless name.length.zero?
     filename = "profiles/#{event.user.id}.yaml"
     if File.exist?(filename) && name.length.zero?
-      data = YAML.load_file(filename)
-      name = data['username']
+      profile = YAML.load_file(filename)
+      name = profile['username']
     elsif name.length.zero?
       name = event.user.nickname || event.user.name
     end
@@ -39,6 +39,8 @@ module User
 
     data = JSON.parse(data)
 
+    streak = data['streakInfo'] if profile['streak']
+
     begin
       event.channel.send_embed do |embed|
         embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "User stats for #{data['username']}", url: URI.escape(data['referralUrl']))
@@ -52,6 +54,14 @@ module User
         embed.add_field(name: 'Amount Won', value: data['leaderboard']['total'], inline: true)
 
         embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
+
+        embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile['lives']
+        if profile['streak']
+          embed.add_field(name: 'Streak Info', value: [
+            "#{streak['target'] - streak['current']} days left",
+            "#{streak['total']} total streak"
+          ].join("\n"), inline: true)
+        end
 
         embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Account created on')
         embed.timestamp = Time.parse(data['created'])

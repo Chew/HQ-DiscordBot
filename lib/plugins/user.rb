@@ -82,12 +82,16 @@ module User
 
         embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
 
-        embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile['lives'] && key != CONFIG['api']
-        if profile['streak'] && key != CONFIG['api']
-          embed.add_field(name: 'Streak Info', value: [
-            "#{streak['target'] - streak['current']} days left",
-            "#{streak['total']} total streak"
-          ].join("\n"), inline: true)
+        begin
+          embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile['lives'] && key != CONFIG['api']
+          if profile['streak'] && key != CONFIG['api']
+            embed.add_field(name: 'Streak Info', value: [
+              "#{streak['target'] - streak['current']} days left",
+              "#{streak['total']} total streak"
+            ].join("\n"), inline: true)
+          end
+        rescue
+          puts 'no way jose'
         end
 
         embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Account created on')

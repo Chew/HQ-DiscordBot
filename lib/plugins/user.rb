@@ -47,7 +47,7 @@ module User
 
     data = JSON.parse(data)
 
-    streak = data['streakInfo'] if profile['streak']
+    streak = data['streakInfo'] if profile['streak'] && key != CONFIG['api']
 
     begin
       event.channel.send_embed do |embed|
@@ -63,8 +63,8 @@ module User
 
         embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
 
-        embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile['lives']
-        if profile['streak']
+        embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile['lives'] && key != CONFIG['api']
+        if profile['streak'] && key != CONFIG['api']
           embed.add_field(name: 'Streak Info', value: [
             "#{streak['target'] - streak['current']} days left",
             "#{streak['total']} total streak"

@@ -40,7 +40,7 @@ module User
     id = iddata[0]['userId']
 
     data = RestClient.get("https://api-quiz.hype.space/users/#{id}",
-                          Authorization: CONFIG['api'],
+                          Authorization: key,
                           'Content-Type': :json)
 
     data = JSON.parse(data)

@@ -15,12 +15,11 @@ module User
     key = CONFIG['api']
 
     if namearg.length.zero?
-      key = if profile['authkey'] && !profile['keyid'].nil?
-              CONFIG[profile['keyid']]
-            else
-              CONFIG['api']
-              break
-            end
+      if profile['authkey'] && !profile['keyid'].nil?
+        key = CONFIG[profile['keyid']]
+      else
+        break
+      end
 
       teste = RestClient.get('https://api-quiz.hype.space/users/me',
                              Authorization: key,

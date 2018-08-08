@@ -2,6 +2,7 @@ module User
   extend Discordrb::Commands::CommandContainer
 
   command(:user, min_args: 0) do |event, *namearg|
+    keys = JSON.parse(File.read('keys.json'))
     name = namearg.join(' ') unless namearg.length.zero?
     filename = "profiles/#{event.user.id}.yaml"
     if File.exist?(filename) && namearg.length.zero?
@@ -18,6 +19,7 @@ module User
               CONFIG[profile['keyid']]
             else
               CONFIG['api']
+              break
             end
 
       teste = RestClient.get('https://api-quiz.hype.space/users/me',

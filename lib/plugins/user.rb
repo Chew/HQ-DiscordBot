@@ -11,6 +11,8 @@ module User
       name = event.user.nickname || event.user.name
     end
 
+    key = CONFIG['api']
+
     if namearg.length.zero?
       key = if profile['authkey'] && !profile['keyid'].nil?
               CONFIG[profile['keyid']]

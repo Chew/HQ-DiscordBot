@@ -21,7 +21,7 @@ module User
                           Authorization: key,
                           'Content-Type': :json)
 
-    teste = JSON.parse(data)
+    teste = JSON.parse(teste)
 
     if teste['username'] != profile['username']
       key = CONFIG['api']

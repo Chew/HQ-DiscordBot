@@ -11,19 +11,21 @@ module User
       name = event.user.nickname || event.user.name
     end
 
-    key = if profile['authkey'] && !profile['keyid'].nil? && namearg.length.zero?
-            CONFIG[profile['keyid']]
-          else
-            CONFIG['api']
-          end
+    unless namearg.length.zero?
+      key = if profile['authkey'] && !profile['keyid'].nil?
+              CONFIG[profile['keyid']]
+            else
+              CONFIG['api']
+            end
+    end
 
-    teste = RestClient.get("https://api-quiz.hype.space/users/me",
-                          Authorization: key,
-                          'Content-Type': :json)
+    teste = RestClient.get('https://api-quiz.hype.space/users/me',
+                           Authorization: key,
+                           'Content-Type': :json)
 
     teste = JSON.parse(teste)
 
-    if teste['username'] != profile['username']
+    if teste['username'].downcase != profile['username'].downcase
       key = CONFIG['api']
       profile['lives'] = false
       profile['streak'] = false

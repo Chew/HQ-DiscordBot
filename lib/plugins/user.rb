@@ -1,19 +1,19 @@
 module User
   extend Discordrb::Commands::CommandContainer
 
-  command(:user, min_args: 0) do |event, *name|
-    name = name.join(' ') unless name.length.zero?
+  command(:user, min_args: 0) do |event, *namearg|
+    name = namearg.join(' ') unless namearg.length.zero?
     filename = "profiles/#{event.user.id}.yaml"
-    if File.exist?(filename) && name.length.zero?
+    if File.exist?(filename) && namearg.length.zero?
       profile = YAML.load_file(filename)
       name = profile['username']
       customname = true
-    elsif name.length.zero?
+    elsif namearg.length.zero?
       name = event.user.nickname || event.user.name
       customname = false
     end
 
-    key = if profile['authkey'] && !profile['keyid'].nil? && customname == false
+    key = if profile['authkey'] && !profile['keyid'].nil? && namearg.length.zero?
             CONFIG[profile['keyid']]
           else
             CONFIG['api']

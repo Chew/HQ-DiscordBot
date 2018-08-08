@@ -1,3 +1,4 @@
 config.yaml
 profiles/*.yaml
 !profiles/0.yaml
+keys.*

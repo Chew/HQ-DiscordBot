@@ -62,7 +62,11 @@ module User
 
     data = JSON.parse(data)
 
-    streak = data['streakInfo'] if profile['streak'] && key != CONFIG['api']
+    begin
+      streak = data['streakInfo'] if profile['streak'] && key != CONFIG['api']
+    rescue StandardError
+      puts 'oops'
+    end
 
     begin
       event.channel.send_embed do |embed|

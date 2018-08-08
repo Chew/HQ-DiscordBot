@@ -2,15 +2,13 @@ module User
   extend Discordrb::Commands::CommandContainer
 
   command(:user, min_args: 0) do |event, *namearg|
-    name = namearg.join(' ') unless namearg.length.zero?
+    name = namearg.join(' ') unless name.length.zero?
     filename = "profiles/#{event.user.id}.yaml"
     if File.exist?(filename) && namearg.length.zero?
       profile = YAML.load_file(filename)
       name = profile['username']
-      customname = true
     elsif namearg.length.zero?
       name = event.user.nickname || event.user.name
-      customname = false
     end
 
     key = if profile['authkey'] && !profile['keyid'].nil? && namearg.length.zero?
@@ -18,6 +16,19 @@ module User
           else
             CONFIG['api']
           end
+
+    teste = RestClient.get("https://api-quiz.hype.space/users/me",
+                          Authorization: key,
+                          'Content-Type': :json)
+
+    teste = JSON.parse(data)
+
+    if teste['username'] != profile['username']
+      key = CONFIG['api']
+      profile['lives'] = false
+      profile['streak'] = false
+      event.respond 'Auth key doesn\'t match your profile username, not returning any extra stats!'
+    end
 
     findid = RestClient.get('https://api-quiz.hype.space/users',
                             params: { q: name },

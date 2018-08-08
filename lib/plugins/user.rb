@@ -17,19 +17,19 @@ module User
             else
               CONFIG['api']
             end
-    end
 
-    teste = RestClient.get('https://api-quiz.hype.space/users/me',
-                           Authorization: key,
-                           'Content-Type': :json)
+      teste = RestClient.get('https://api-quiz.hype.space/users/me',
+                             Authorization: key,
+                             'Content-Type': :json)
 
-    teste = JSON.parse(teste)
+      teste = JSON.parse(teste)
 
-    if teste['username'].downcase != profile['username'].downcase
-      key = CONFIG['api']
-      profile['lives'] = false
-      profile['streak'] = false
-      event.respond 'Auth key doesn\'t match your profile username, not returning any extra stats!'
+      unless teste['username'].casecmp(profile['username']).zero?
+        key = CONFIG['api']
+        profile['lives'] = false
+        profile['streak'] = false
+        event.respond 'Auth key doesn\'t match your profile username, not returning any extra stats!'
+      end
     end
 
     findid = RestClient.get('https://api-quiz.hype.space/users',

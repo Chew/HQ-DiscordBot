@@ -11,9 +11,15 @@ module User
       name = event.user.nickname || event.user.name
     end
 
+    key = if profile['authkey'] && !profile['keyid'].nil?
+            CONFIG[profile['keyid']]
+          else
+            CONFIG['api']
+          end
+
     findid = RestClient.get('https://api-quiz.hype.space/users',
                             params: { q: name },
-                            Authorization: CONFIG['api'],
+                            Authorization: key,
                             'Content-Type': :json)
 
     iddata = JSON.parse(findid)['data']

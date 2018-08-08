@@ -15,11 +15,11 @@ module User
     key = CONFIG['api']
 
     if namearg.length.zero?
-      if profile['authkey'] && !profile['keyid'].nil?
-        key = CONFIG[profile['keyid']]
-      else
-        break
-      end
+      key = if profile['authkey'] && !profile['keyid'].nil?
+              CONFIG[profile['keyid']]
+            else
+              CONFIG['api']
+            end
 
       teste = RestClient.get('https://api-quiz.hype.space/users/me',
                              Authorization: key,
@@ -31,7 +31,7 @@ module User
         key = CONFIG['api']
         profile['lives'] = false
         profile['streak'] = false
-        event.respond 'Auth key doesn\'t match your profile username, not returning any extra stats!'
+        event.respond 'Auth key doesn\'t match your profile username, not returning any extra stats!' if profile['authkey']
       end
     end
 

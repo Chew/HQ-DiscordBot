@@ -19,7 +19,7 @@ module Profile
 
     extras = []
     extras += ['Extra Lives'] if data['lives']
-    extras += ['Streak Info'] if data['streaks']
+    extras += ['Streak Info'] if data['streak']
 
     begin
       event.channel.send_embed do |embed|
@@ -51,7 +51,7 @@ module Profile
     case type.downcase
     when 'username', 'region'
       data[type.downcase] = setting
-    when 'lives', 'streaks'
+    when 'lives', 'streak'
       if data['authkey']
         data[type.downcase] = setting == 'true'
       else

@@ -7,11 +7,13 @@ module User
     if File.exist?(filename) && name.length.zero?
       profile = YAML.load_file(filename)
       name = profile['username']
+      customname = true
     elsif name.length.zero?
       name = event.user.nickname || event.user.name
+      customname = false
     end
 
-    key = if profile['authkey'] && !profile['keyid'].nil?
+    key = if profile['authkey'] && !profile['keyid'].nil? && customname == false
             CONFIG[profile['keyid']]
           else
             CONFIG['api']

@@ -84,6 +84,8 @@ module Profile
     case type.downcase
     when 'donator', 'authkey', 'bughunter'
       data[type.downcase] = setting == 'true'
+    when 'keyid'
+      data[type.downcase] = setting
     else
       event.respond 'Invalid type!'
       break

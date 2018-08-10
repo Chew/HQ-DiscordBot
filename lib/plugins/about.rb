@@ -104,7 +104,7 @@ module About
 
   command(:lib) do |event|
     gems = `gem list`.split("\n")
-    libs = ['discordrb', 'rest-client', 'json', 'yaml', 'nokogiri']
+    libs = ['discordrb', 'rest-client', 'json', 'yaml', 'nokogiri', 'dblruby', 'listcordrb']
     versions = []
     libs.each do |name|
       version = gems[gems.index { |s| s.include?(name) }].split(' ')[1]

@@ -1,6 +1,35 @@
 module User
   extend Discordrb::Commands::CommandContainer
 
+  command(:id, min_args: 0) do |event, *namearg|
+    name = namearg.join(' ') unless namearg.length.zero?
+    key = CONFIG['api']
+
+    findid = RestClient.get('https://api-quiz.hype.space/users',
+                            params: { q: name },
+                            Authorization: key,
+                            'Content-Type': :json)
+
+    iddata = JSON.parse(findid)['data']
+
+    if iddata.length.zero?
+      begin
+        event.channel.send_embed do |embed|
+          embed.title = 'Error while searching for stats'
+          embed.colour = 'E6286E'
+          embed.description = 'Username not found.'
+        end
+      rescue Discordrb::Errors::NoPermission
+        event.respond 'That user doesn\'t exist!'
+      end
+      break
+    end
+
+    id = iddata[0]['userId']
+
+    event.respond "HQ User ID for #{name} is #{id}"
+  end
+
   command(:user, min_args: 0) do |event, *namearg|
     keys = JSON.parse(File.read('keys.json'))
     name = namearg.join(' ') unless namearg.length.zero?

@@ -14,12 +14,8 @@ module User
 
     key = CONFIG['api']
 
-    if namearg.length.zero?
-      key = if profile['authkey'] && !profile['keyid'].nil?
-              CONFIG[profile['keyid']]
-            else
-              CONFIG['api']
-            end
+    if namearg.length.zero? && File.exist?(filename) && profile['authkey']
+      key = keys[profile['keyid']]
 
       teste = RestClient.get('https://api-quiz.hype.space/users/me',
                              Authorization: key,
@@ -31,7 +27,7 @@ module User
         key = CONFIG['api']
         profile['lives'] = false
         profile['streak'] = false
-        event.respond 'Auth key doesn\'t match your profile username, not returning any extra stats!' if profile['authkey']
+        event.respond 'Auth key doesn\'t match your profile username, not returning any extra stats!'
       end
     end
 
@@ -64,12 +60,6 @@ module User
     data = JSON.parse(data)
 
     begin
-      streak = data['streakInfo'] if profile['streak'] && key != CONFIG['api']
-    rescue StandardError
-      puts 'oops'
-    end
-
-    begin
       event.channel.send_embed do |embed|
         embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "User stats for #{data['username']}", url: URI.escape(data['referralUrl']))
         embed.colour = '36399A'
@@ -83,16 +73,14 @@ module User
 
         embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
 
-        begin
-          embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile['lives'] && key != CONFIG['api']
-          if profile['streak'] && key != CONFIG['api']
+        if namearg.length.zero? && File.exist?(filename)
+          embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile['lives']
+          if profile['streak']
             embed.add_field(name: 'Streak Info', value: [
-              "#{streak['target'] - streak['current']} days left",
-              "#{streak['total']} total streak"
+              "#{data['streakInfo']['target'] - data['streakInfo']['current']} days left",
+              "#{data['streakInfo']['total']} total streak"
             ].join("\n"), inline: true)
           end
-        rescue
-          puts 'no way jose'
         end
 
         embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Account created on')

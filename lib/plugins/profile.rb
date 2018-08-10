@@ -48,6 +48,7 @@ module Profile
       File.open(filename, 'w') { |f| f.write exconfig.to_yaml }
     end
     data = YAML.load_file(filename)
+    type = 'streak' if type == 'streaks'
     case type.downcase
     when 'username', 'region'
       data[type.downcase] = setting

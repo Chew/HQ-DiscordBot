@@ -14,7 +14,7 @@ module About
         embed.add_field(name: 'More Bot Stats', value: 'Run `hq, stats` to see more stats!', inline: true)
       end
     rescue Discordrb::Errors::NoPermission
-      event.respond 'Hey, Scott Rogowski here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
+      event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end
   end
 
@@ -46,7 +46,7 @@ module About
         ].join("\n"), inline: false)
       end
     rescue Discordrb::Errors::NoPermission
-      event.respond 'Hey, Scott Rogowski here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
+      event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end
   end
 
@@ -74,14 +74,13 @@ module About
     secs = format('%d seconds', ss) if ss != 0
 
     commits = `git rev-list master | wc -l`.to_i
-    version = `git describe --abbrev=0 --tags`.to_s
 
     botversion = if commits.zero? && version.zero?
                    ''
                  elsif version.to_i.positive? && commits.zero?
                    version
                  else
-                   "#{version} (Commit: #{commits})"
+                   "Commit: #{commits}"
                  end
 
     begin
@@ -98,7 +97,7 @@ module About
         e.color = '36399A'
       end
     rescue Discordrb::Errors::NoPermission
-      event.respond 'Hey, Scott Rogowski here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
+      event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end
   end
 
@@ -121,7 +120,7 @@ module About
         e.color = '36399A'
       end
     rescue Discordrb::Errors::NoPermission
-      event.respond 'Hey, Scott Rogowski here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
+      event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end
   end
 end

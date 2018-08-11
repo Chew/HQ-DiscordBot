@@ -75,10 +75,8 @@ module About
 
     commits = `git rev-list master | wc -l`.to_i
 
-    botversion = if commits.zero? && version.zero?
+    botversion = if commits.zero?
                    ''
-                 elsif version.to_i.positive? && commits.zero?
-                   version
                  else
                    "Commit: #{commits}"
                  end
@@ -88,7 +86,7 @@ module About
         e.title = 'HQ Trivia Bot Stats!'
 
         e.add_field(name: 'Author', value: Bot.user(116013677060161545).distinct, inline: true)
-        e.add_field(name: 'Code', value: '[View code on GitHub](http://github.com/Chewsterchew/HQ-DiscordBot)', inline: true)
+        e.add_field(name: 'Code', value: '[Code on GitHub](http://github.com/Chewsterchew/HQ-DiscordBot)', inline: true)
         e.add_field(name: 'Bot Version', value: botversion, inline: true) unless botversion == ''
         e.add_field(name: 'Library', value: 'discordrb 3.2.1', inline: true)
         e.add_field(name: 'Uptime', value: "#{days}#{hours}#{mins}#{secs}", inline: true)

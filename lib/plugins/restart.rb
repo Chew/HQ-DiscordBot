@@ -23,7 +23,7 @@ module Restart
                  title: '**Updated Successfully**',
 
                  description: changes,
-                 color: '7ED321'
+                 color: 0x7ED321
     ))
   end
 

@@ -16,10 +16,15 @@ module Restart
       event.respond "You can't update! (If you are the owner of the bot, you did not configure properly! Otherwise, stop trying to update the bot!)"
       return
     end
-    event.respond 'Restarting and Updating!'
+    m = event.respond 'Updating...'
     sleep 1
-    `git pull`
-    exec('ruby run.rb')
+    changes = `git pull`
+    m.edit('', Discordrb::Webhooks::Embed.new(
+                 title: '**Updated Successfully**',
+
+                 description: changes,
+                 color: '7ED321'
+    ))
   end
 
   command(:updates) do |event|

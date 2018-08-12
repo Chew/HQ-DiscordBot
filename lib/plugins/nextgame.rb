@@ -31,19 +31,19 @@ module NextGame
 
     kind = if active
              if data['vertical'] == 'general'
-               'Normal Show'
+               'Normal'
              elsif data['vertical'] == 'sports'
-               'Sports Show'
+               'Sports'
              else
-               'Unknown Show'
+               'Unknown'
              end
            else
              if data['upcoming'][0]['vertical'] == 'general'
-               'Normal Show'
+               'Normal'
              elsif data['upcoming'][0]['vertical'] == 'sports'
-               'Sports Show'
+               'Sports'
              else
-               'Unknown Show'
+               'Unknown'
              end
            end
 

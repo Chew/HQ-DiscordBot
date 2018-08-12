@@ -65,7 +65,7 @@ module NextGame
           embed.timestamp = Time.parse(data['upcoming'][0]['time'])
         end
 
-        embed.add_field(name: 'Prize:', value: prize, inline: true)
+        embed.add_field(name: 'Prize', value: prize, inline: true)
         embed.add_field(name: 'Type', value: kind, inline: true)
       end
     rescue Discordrb::Errors::NoPermission

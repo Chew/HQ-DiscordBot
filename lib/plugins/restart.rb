@@ -51,7 +51,7 @@ module Restart
           end
         end
       rescue Discordrb::Errors::NoPermission
-        event.respond "SYSTEM ERRor, I CANNot SEND THE EMBED, EEEEE. Can I please have the 'Embed Links' permission? Thanks, appriciate ya."
+        event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
       end
     end
   end

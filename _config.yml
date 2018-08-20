@@ -1,0 +1,46 @@
+# name of the software
+name: HQ Trivia Discord Bot
+
+project:
+    version: 0.1.0
+    download_url: https://github.com/allejo/jekyll-docs-theme/releases
+
+links:
+    header:
+      - title: GitHub
+        url: https://github.com/allejo/jekyll-docs-theme
+      - title: Support Server
+        url: https://discord.gg/Wr2yawT
+    footer:
+      - title: GitHub
+        url: https://github.com/allejo/jekyll-docs-theme
+      - title: Issues
+        url: https://github.com/allejo/jekyll-docs-theme/issues?state=open
+
+ui:
+    header:
+        color1: "#080331"
+        color2: "#673051"
+        trianglify: true
+
+social:
+    github:
+        user: Chewsterchew
+        repo: HQ-DiscordBot
+    twitter:
+        enabled: false
+        via:
+        hash:
+        account:
+    facebook:
+        enabled: false
+        profileUrl:
+
+analytics:
+    google:
+
+# Build settings
+markdown: kramdown
+exclude:
+    - Gemfile
+    - Gemfile.lock

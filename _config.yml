@@ -3,7 +3,7 @@ name: HQ Trivia Discord Bot
 
 project:
     version: 0.1.0
-    download_url: https://discordapp.com/oauth2/authorize?client_id=463127758143225874&permissions=18432&scope=bot
+    add_url: https://discordapp.com/oauth2/authorize?client_id=463127758143225874&permissions=18432&scope=bot
 
 links:
     header:

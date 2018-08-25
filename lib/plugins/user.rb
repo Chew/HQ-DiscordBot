@@ -102,6 +102,8 @@ module User
 
         embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
 
+        embed.add_field(name: 'Badges', value: "#{data['achievementCount']} badges", inline: true) unless data['achievementCount'].zero?
+
         if namearg.length.zero? && File.exist?(filename)
           embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile['lives']
           if profile['streak']

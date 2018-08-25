@@ -12,17 +12,6 @@ module Question
       msg = 'What kind of question gives you less than 2 seconds to answer it?'
       delay = 2
     end
-    filename = "profiles/#{event.user.id}.yaml"
-    if File.exist?(filename)
-      profile = YAML.load_file(filename)
-      if profile['donator'].nil? || profile['donator'] == false
-        event.respond 'Hey, Scott Rogowsky here, because this command is in beta, only donators may use this command, but it will be available to everyone very soon!'
-        break
-      end
-    else
-      event.respond 'Hey, Scott Rogowsky here, because this command is in beta, only donators may use this command, but it will be available to everyone very soon!'
-      break
-    end
     data = JSON.parse(RestClient.get('http://api.chew.pro/hq/random'))
     m = event.channel.send_embed(msg) do |embed|
       embed.title = data['question']['question']
@@ -62,7 +51,7 @@ module Question
     m.edit('', Discordrb::Webhooks::Embed.new(
                  title: data['question']['question'],
                  description: [c1, c2, c3].join("\n"),
-                 footer: {text: 'This question was asked:'},
+                 footer: { text: 'This question was asked:' },
                  timestamp: Time.parse(data['game']['time'])
                ))
   end

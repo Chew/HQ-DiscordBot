@@ -88,6 +88,23 @@ module User
 
     data = JSON.parse(data)
 
+    leader = data['leaderboard']
+
+    wrank = leader['weekly']['rank']
+    arank = leader['alltime']['rank']
+
+    showrank = !(wrank == arank && wrank == 101)
+
+    ranks = []
+
+    ranks += if leader['weekly']['rank'] == 101
+               ["Weekly: User hasn't won this week"]
+             else
+               ["Weekly: #{leader['weekly']['rank']}th"]
+             end
+
+    ranks += ["All-Time: #{leader['alltime']['rank']}th"]
+
     begin
       event.channel.send_embed do |embed|
         embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "User stats for #{data['username']}", url: URI.escape(data['referralUrl']))
@@ -103,6 +120,8 @@ module User
         embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
 
         embed.add_field(name: 'Badges', value: "#{data['achievementCount']} badges", inline: true) unless data['achievementCount'].zero?
+
+        embed.add_field(name: 'Ranking', value: ranks.join("\n"), inline: true) if showrank
 
         if namearg.length.zero? && File.exist?(filename)
           embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile['lives']

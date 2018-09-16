@@ -115,11 +115,18 @@ module User
           "Win Count - #{data['winCount']}"
         ].join("\n"), inline: true)
 
-        embed.add_field(name: 'Amount Won', value: data['leaderboard']['total'], inline: true)
+        unstat = []
+
+        unstat += [data['leaderboard']['total']]
+
+        unclaimed = data['leaderboard']['unclaimed']
+        unstat += [" (#{unclaimed} unclaimed)"] unless unclaimed == '$0'
+
+        embed.add_field(name: 'Amount Won', value: unstat.join("\n"), inline: true)
 
         embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
 
-        embed.add_field(name: 'Badges', value: "#{data['achievementCount']} badges", inline: true) unless data['achievementCount'].zero?
+        embed.add_field(name: 'Badges', value: "#{data['achievementCount']} badges", inline: true)
 
         embed.add_field(name: 'Ranking', value: ranks.join("\n"), inline: true) if showrank
 

@@ -2,32 +2,28 @@ module Profile
   extend Discordrb::Commands::CommandContainer
 
   command(:profile) do |event|
-    filename = "profiles/#{event.user.id}.yaml"
-    unless File.exist?(filename)
-      File.new(filename, 'w+')
-      exconfig = YAML.load_file('profiles/0.yaml')
-      exconfig['username'] = event.user.nickname || event.user.name
-      File.open(filename, 'w') { |f| f.write exconfig.to_yaml }
+    dbuser = BotUser.new(event.user.id)
+    unless dbuser.exists?
+      DBHelper.newuser(event.user.id, event.user.display_name, 'us')
+      dbuser = BotUser.new(event.user.id)
     end
 
-    data = YAML.load_file(filename)
-
     perks = []
-    perks += ['Donator'] if data['donator']
-    perks += ['Auth Key Donor'] if data['authkey']
-    perks += ['Bug Hunter'] if data['bughunter']
+    perks += ['Donator'] if dbuser.donator?
+    perks += ['Auth Key Donor'] if dbuser.authkey?
+    perks += ['Bug Hunter'] if dbuser.bughunter?
 
     extras = []
-    extras += ['Extra Lives'] if data['lives']
-    extras += ['Streak Info'] if data['streak']
+    extras += ['Extra Lives'] if dbuser.lives?
+    extras += ['Streak Info'] if dbuser.streaks?
 
     begin
       event.channel.send_embed do |embed|
         embed.title = "HQBot Profile for #{event.user.name}"
         embed.colour = '36399A'
 
-        embed.add_field(name: 'HQ Username', value: data['username'], inline: true)
-        embed.add_field(name: 'Region', value: data['region'], inline: true)
+        embed.add_field(name: 'HQ Username', value: dbuser.username, inline: true)
+        embed.add_field(name: 'Region', value: dbuser.region, inline: true)
         embed.add_field(name: 'Extra User Stats', value: extras.join("\n"), inline: true) unless extras.length.zero?
         embed.add_field(name: 'Special Perks', value: perks.join("\n"), inline: true) unless perks.length.zero?
 
@@ -40,32 +36,32 @@ module Profile
 
   command(:set) do |event, type, *setting|
     setting = setting.join(' ')
-    filename = "profiles/#{event.user.id}.yaml"
-    unless File.exist?(filename)
-      File.new(filename, 'w+')
-      exconfig = YAML.load_file('profiles/0.yaml')
-      exconfig['username'] = event.user.nickname || event.user.name
-      File.open(filename, 'w') { |f| f.write exconfig.to_yaml }
+    dbuser = BotUser.new(event.user.id)
+    unless dbuser.exists?
+      DBHelper.newuser(event.user.id, event.server.member(event.user.id).display_name, 'us')
+      dbuser = BotUser.new(event.user.id)
     end
-    data = YAML.load_file(filename)
-    type = 'streak' if type == 'streaks'
+    type = 'streaks' if type == 'streak'
     case type.downcase
     when 'username'
-      data[type.downcase] = setting
+      dbuser.username = setting
     when 'region'
       setting.downcase!
       if setting.include? 'us'
-        data[type.downcase] = 'us'
+        dbuser.region = 'us'
       elsif setting.include? 'uk'
-        data[type.downcase] = 'uk'
+        dbuser.region = 'uk'
       elsif setting.include? 'de'
-        data[type.downcase] = 'de'
+        dbuser.region = 'de'
       elsif setting.include? 'au'
-        data[type.downcase] = 'au'
+        dbuser.region = 'au'
       end
-    when 'lives', 'streak'
-      if data['authkey']
-        data[type.downcase] = setting == 'true'
+    when 'lives', 'streaks'
+      setting.downcase!
+      choice = 0
+      choice = 1 if %w[true on enabled].include? setting
+      if dbuser.authkey?
+        DBHelper.updateuser(event.user.id, type.downcase, choice.to_i)
       else
         event.respond ':-1: Unable to set: You must be an AuthKey donator to use this type!'
         break
@@ -74,35 +70,24 @@ module Profile
       event.respond ':-1: Unable to set: Invalid type!'
       break
     end
-    File.open(filename, 'w') { |f| f.write data.to_yaml }
     event.respond ":+1: Successfully set `#{type}` to `#{setting}`"
   end
 
-  command(:setperk) do |event, user, type, *setting|
+  command(:setperk) do |event, user, type, setting|
     unless event.user.id == CONFIG['owner_id']
       event.respond 'Sorry, only the bot owner may set perks!'
       break
     end
     userid = Bot.parse_mention(user).id
-    setting = setting.join(' ')
-    filename = "profiles/#{userid}.yaml"
-    unless File.exist?(filename)
-      File.new(filename, 'w+')
-      exconfig = YAML.load_file('profiles/0.yaml')
-      exconfig['username'] = event.user.nickname || event.user.name
-      File.open(filename, 'w') { |f| f.write exconfig.to_yaml }
-    end
-    data = YAML.load_file(filename)
+    dbuser = BotUser.new(userid)
+    DBHelper.newuser(userid, Bot.user(userid).displayname, 'us') unless dbuser.exists?
     case type.downcase
-    when 'donator', 'authkey', 'bughunter'
-      data[type.downcase] = setting == 'true'
-    when 'keyid'
-      data[type.downcase] = setting
+    when 'donator', 'authkey', 'bughunter', 'keyid'
+      DBHelper.updateuser(userid, type, setting.to_i)
     else
       event.respond 'Invalid type!'
       break
     end
-    File.open(filename, 'w') { |f| f.write data.to_yaml }
     event.respond ":+1: Successfully set `#{type}` to `#{setting}`"
   end
 end

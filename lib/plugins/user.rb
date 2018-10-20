@@ -33,18 +33,20 @@ module User
   command(%i[user stats], min_args: 0) do |event, *namearg|
     keys = JSON.parse(File.read('keys.json'))
     name = namearg.join(' ') unless namearg.length.zero?
-    filename = "profiles/#{event.user.id}.yaml"
-    if File.exist?(filename) && namearg.length.zero?
-      profile = YAML.load_file(filename)
-      name = profile['username']
+    user = BotUser.new(event.user.id)
+    if user.exists? && namearg.length.zero?
+      profile = user
+      name = profile.username
     elsif namearg.length.zero?
-      name = event.user.nickname || event.user.name
+      name = event.user.display_name
     end
 
     key = CONFIG['api']
 
-    if namearg.length.zero? && File.exist?(filename) && profile['authkey']
-      key = keys[profile['keyid']]
+    extra = false
+    if namearg.length.zero? && user.exists? && profile.authkey?
+      extra = true
+      key = keys[profile.keyid]
 
       teste = RestClient.get('https://api-quiz.hype.space/users/me',
                              Authorization: key,
@@ -52,10 +54,9 @@ module User
 
       teste = JSON.parse(teste)
 
-      unless teste['username'].casecmp(profile['username']).zero?
+      unless teste['username'].casecmp(profile.username).zero?
         key = CONFIG['api']
-        profile['lives'] = false
-        profile['streak'] = false
+        extra = false
         event.respond 'Auth key doesn\'t match your profile username, not returning any extra stats!'
       end
     end
@@ -130,9 +131,9 @@ module User
 
         embed.add_field(name: 'Ranking', value: ranks.join("\n"), inline: true) if showrank
 
-        if namearg.length.zero? && File.exist?(filename)
-          embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile['lives']
-          if profile['streak']
+        if namearg.length.zero? && user.exists? && extra
+          embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile.lives?
+          if profile.streaks?
             embed.add_field(name: 'Streak Info', value: [
               "#{data['streakInfo']['target'] - data['streakInfo']['current']} days left",
               "#{data['streakInfo']['total']} total streak"

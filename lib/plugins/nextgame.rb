@@ -2,10 +2,9 @@ module NextGame
   extend Discordrb::Commands::CommandContainer
 
   command(%i[nextgame next game]) do |event, region|
-    filename = "profiles/#{event.user.id}.yaml"
-    if File.exist?(filename) && region.nil?
-      data = YAML.load_file(filename)
-      region = data['region']
+    dbuser = BotUser.new(event.user.id)
+    if dbuser.exists? && region.nil?
+      region = dbuser.region
     elsif region.nil?
       region = 'us'
     end

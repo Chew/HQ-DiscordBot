@@ -36,14 +36,12 @@ module NextGame
              else
                'Unknown'
              end
+           elsif data['upcoming'][0]['vertical'] == 'general'
+             'Normal'
+           elsif data['upcoming'][0]['vertical'] == 'sports'
+             'Sports'
            else
-             if data['upcoming'][0]['vertical'] == 'general'
-               'Normal'
-             elsif data['upcoming'][0]['vertical'] == 'sports'
-               'Sports'
-             else
-               'Unknown'
-             end
+             'Unknown'
            end
 
     prize = if active

@@ -31,6 +31,8 @@ require_relative 'extensions/dbgeek'
 require_relative 'extensions/commandz'
 require_relative 'extensions/botuser'
 
+DBHelper = DbGeek.new
+
 prefixes = ["<@#{CONFIG['client_id']}> ", 'hq, ', 'HQ, ', 'hq,', 'HQ,', 'hq', 'HQ', 'Hq, ', 'Hq ', 'Hq', 'Hq,'].freeze
 
 Bot = Discordrb::Commands::CommandBot.new token: CONFIG['token'],

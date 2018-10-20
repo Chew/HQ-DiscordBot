@@ -11,7 +11,7 @@ module About
         embed.add_field(name: 'Commands', value: 'Command list can be found with `hq, commands`', inline: true)
         embed.add_field(name: 'Invite me!', value: 'You can invite me to your server with [this link](https://discordapp.com/api/oauth2/authorize?client_id=463127758143225874&permissions=18432&scope=bot).', inline: true)
         embed.add_field(name: 'Help Server', value: 'Click [me](https://discord.gg/59N3FcX) to join the help server.', inline: true)
-        embed.add_field(name: 'More Bot Stats', value: 'Run `hq, stats` to see more stats!', inline: true)
+        embed.add_field(name: 'More Bot Stats', value: 'Run `hq, info` to see more stats!', inline: true)
       end
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'

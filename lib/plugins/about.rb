@@ -36,6 +36,7 @@ module About
         embed.add_field(name: 'HQ Stats Commands', value: [
           '`hq, rank` - Find weekly/all-time rankings. Add arg `all` for all time.',
           '`hq, user (name)` - Find stats for a user, leave name blank to just use your discord nick/user name',
+          '`hq, badges (name)` - Find badge stats for a user.',
           '`hq, nextgame (us/uk/de/au)` - Find the next game time and prize, give argument for different regions'
         ].join("\n"), inline: false)
 

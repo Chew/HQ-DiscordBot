@@ -98,13 +98,42 @@ module User
 
     ranks = []
 
-    ranks += if leader['weekly']['rank'] == 101
-               ["Weekly: User hasn't won this week"]
-             else
-               ["Weekly: #{leader['weekly']['rank']}th"]
-             end
+    wrank = leader['weekly']['rank']
+    arank = leader['alltime']['rank']
 
-    ranks += ["All-Time: #{leader['alltime']['rank']}th"]
+    if wrank == 101
+      hey = "User hasn't won this week"
+    else
+      prefix = case wrank.to_s.split('').last.to_i
+               when 1
+                 'st'
+               when 2
+                 'nd'
+               when 3
+                 'rd'
+               else
+                 'th'
+               end
+      prefix = 'th' if wrank.to_s.length > 1
+      hey = "#{wrank}#{prefix}"
+    end
+
+    prefix = case arank.to_s.split('').last.to_i
+             when 1
+               'st'
+             when 2
+               'nd'
+             when 3
+               'rd'
+             else
+               'th'
+             end
+    prefix = 'th' if arank.to_s.length > 1
+    sup = "#{arank}#{prefix}"
+
+    ranks += ["Weekly: #{hey}"]
+
+    ranks += ["All-Time: #{sup}"]
 
     begin
       event.channel.send_embed do |embed|

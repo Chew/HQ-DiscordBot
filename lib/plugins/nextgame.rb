@@ -12,17 +12,17 @@ module NextGame
 
     case region.downcase
     when 'us'
-      key = CONFIG['api']
+      stk = 'MQ=='
     when 'uk'
-      key = CONFIG['apiuk']
+      stk = 'Mg=='
     when 'de'
-      key = CONFIG['apide']
+      stk = 'Mw=='
     when 'au'
-      key = CONFIG['apiau']
+      stk = 'NA=='
     end
     data = RestClient.get('https://api-quiz.hype.space/shows/now',
                           params: { type: 'hq' },
-                          Authorization: key,
+                          'x-hq-stk': stk,
                           'Content-Type': :json)
 
     data = JSON.parse(data)

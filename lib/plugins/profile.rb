@@ -47,15 +47,17 @@ module Profile
       dbuser.username = setting
     when 'region'
       setting.downcase!
-      if setting.include? 'us'
-        dbuser.region = 'us'
-      elsif setting.include? 'uk'
-        dbuser.region = 'uk'
-      elsif setting.include? 'de'
-        dbuser.region = 'de'
-      elsif setting.include? 'au'
-        dbuser.region = 'au'
-      end
+      dbuser.region = if setting.include? 'us'
+                        'us'
+                      elsif setting.include? 'uk'
+                        'uk'
+                      elsif setting.include? 'de'
+                        'de'
+                      elsif setting.include? 'au'
+                        'au'
+                      else
+                        'us'
+                      end
     when 'lives', 'streaks'
       setting.downcase!
       choice = 0

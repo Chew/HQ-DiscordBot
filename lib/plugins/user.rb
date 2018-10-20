@@ -30,7 +30,7 @@ module User
     event.respond "HQ User ID for #{name} is #{id}"
   end
 
-  command(:user, min_args: 0) do |event, *namearg|
+  command(%i[user stats], min_args: 0) do |event, *namearg|
     keys = JSON.parse(File.read('keys.json'))
     name = namearg.join(' ') unless namearg.length.zero?
     filename = "profiles/#{event.user.id}.yaml"

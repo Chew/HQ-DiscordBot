@@ -63,7 +63,7 @@ module About
     event.respond 'Hello! Invite me to your server here: <https://discordapp.com/api/oauth2/authorize?client_id=463127758143225874&permissions=18432&scope=bot>. Join my help server here: https://discord.gg/59N3FcX'
   end
 
-  command(:stats) do |event|
+  command(%i[bot info]) do |event|
     t = Time.now - Starttime
     mm, ss = t.divmod(60)
     hh, mm = mm.divmod(60)
@@ -81,16 +81,19 @@ module About
                    "Commit: #{commits}"
                  end
 
+    puts Commands.get
+
     begin
       event.channel.send_embed do |e|
         e.title = 'HQ Trivia Bot Stats!'
 
-        e.add_field(name: 'Author', value: Bot.user(116013677060161545).distinct, inline: true)
+        e.add_field(name: 'Author', value: Bot.user(476488167042580481).distinct, inline: true)
         e.add_field(name: 'Code', value: '[Code on GitHub](http://github.com/Chewsterchew/HQ-DiscordBot)', inline: true)
         e.add_field(name: 'Bot Version', value: botversion, inline: true) unless botversion == ''
         e.add_field(name: 'Library', value: 'discordrb 3.2.1', inline: true)
         e.add_field(name: 'Uptime', value: "#{days}#{hours}#{mins}#{secs}", inline: true)
         e.add_field(name: 'Server Count', value: event.bot.servers.count, inline: true)
+        e.add_field(name: 'Commands Ran', value: Commands.get, inline: true)
         e.add_field(name: 'Total User Count', value: event.bot.users.count, inline: true)
         e.color = '36399A'
       end

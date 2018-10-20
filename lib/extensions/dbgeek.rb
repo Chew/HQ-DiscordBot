@@ -8,4 +8,8 @@ class DbGeek
   def getuser(id)
     DB.query("SELECT * FROM `hqtriviabot_profiles` WHERE `userid` = #{id.to_i}")
   end
+
+  def updateuser(id, item, value)
+    DB.query("UPDATE `hqtriviabot_profiles` SET `#{item}` = '#{value}' WHERE `hqtriviabot_profiles`.`userid` = #{id.to_i}")
+  end
 end

@@ -29,7 +29,7 @@ module About
           '`hq, commands` - Find bot commands',
           '`hq, ping` - Ping the bot',
           '`hq, invite` - Invite the bot',
-          '`hq, stats` - Find stats on the bot',
+          '`hq, bot info` - Find stats on the bot',
           '`hq, lib` - HQ Bot Open-Source Libraries'
         ].join("\n"), inline: false)
 

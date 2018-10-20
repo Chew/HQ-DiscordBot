@@ -4,6 +4,7 @@ require 'json'
 require 'yaml'
 require 'open-uri'
 require 'dblruby'
+require 'mysql2'
 puts 'All dependencies loaded'
 
 CONFIG = YAML.load_file('config.yaml')
@@ -12,12 +13,34 @@ puts 'Config loaded from file'
 DBL = DBLRuby.new(CONFIG['dbotsorg'], CONFIG['client_id'])
 puts 'Properly Instantiated DBL!'
 
+begin
+  DB = Mysql2::Client.new(
+    host: CONFIG['db']['host'],
+    username: CONFIG['db']['username'],
+    password: CONFIG['db']['password'],
+    database: CONFIG['db']['database']
+  )
+rescue Mysql2::Error::ConnectionError
+  puts 'Unable to connect to the database. Good going!'
+  exit
+end
+
+puts 'Connected to database'
+
+require_relative 'extensions/dbgeek'
+require_relative 'extensions/commandz'
+require_relative 'extensions/botuser'
+
+prefixes = ["<@#{CONFIG['client_id']}> ", 'hq, ', 'HQ, ', 'hq,', 'HQ,', 'hq', 'HQ', 'Hq, ', 'Hq ', 'Hq', 'Hq,'].freeze
+
 Bot = Discordrb::Commands::CommandBot.new token: CONFIG['token'],
                                           client_id: CONFIG['client_id'],
-                                          prefix: ["<@#{CONFIG['client_id']}> ", 'hq, ', 'HQ, ', 'hq,', 'HQ,', 'hq', 'HQ', 'Hq, ', 'Hq ', 'Hq', 'Hq,'],
+                                          prefix: prefixes,
                                           ignore_bots: true
 
 puts 'Initial Startup complete, loading all plugins...'
+
+Commands = Commandz.new
 
 Starttime = Time.now
 
@@ -73,6 +96,11 @@ Bot.server_delete do |event|
 
     e.color = 'FF0000'
   end
+end
+
+Bot.message(starts_with: prefixes) do |_event|
+  Commands.add
+  nil
 end
 
 puts 'Done loading plugins! Finalizing start-up'

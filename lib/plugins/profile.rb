@@ -50,8 +50,19 @@ module Profile
     data = YAML.load_file(filename)
     type = 'streak' if type == 'streaks'
     case type.downcase
-    when 'username', 'region'
+    when 'username'
       data[type.downcase] = setting
+    when 'region'
+      setting.downcase!
+      if setting.include? 'us'
+        data[type.downcase] = 'us'
+      elsif setting.include? 'uk'
+        data[type.downcase] = 'uk'
+      elsif setting.include? 'de'
+        data[type.downcase] = 'de'
+      elsif setting.include? 'au'
+        data[type.downcase] = 'au'
+      end
     when 'lives', 'streak'
       if data['authkey']
         data[type.downcase] = setting == 'true'

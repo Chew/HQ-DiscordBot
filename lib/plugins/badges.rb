@@ -2,18 +2,19 @@ module Badges
   extend Discordrb::Commands::CommandContainer
 
   ROLE_ID = JSON.parse({
-    'Business': '<:business_badge:503357666211659797>',
-    'Celebrity': '<:entertainment_badge:503357666106802176>',
-    'Geography': '<:geography_badge:503357666408529920>',
-    'History': '<:history_badge:503357666354003981>',
-    'Literature': '<:literature_badge:503357666362654741>',
-    'Movies': '<:movies_badge:503357666240757761>',
-    'Music': '<:music_badge:503357666912108546>',
-    'Nature': '<:nature_badge:503357666794668032>',
-    'Science': '<:science_badge:503357666463055882>',
-    'Sports': '<:sports_badge:503357666794405919>',
-    'TV': '<:tv_badge:503365650165661716>'
+    'Business': ['<:categorybusiness_lg_1:504332837055496193>','<:categorybusiness_lg_2:504332836841455647>','<:categorybusiness_lg_3:504332839010172928>'],
+    'Celebrity': ['<:categoryentertainment_lg_1:504332837110022145>','<:categoryentertainment_lg_2:504332838686949396>','<:categoryentertainment_lg_3:504332839702102016>'],
+    'Geography': ['<:categorygeography_lg_1:504332839115030538>','<:categorygeography_lg_2:504332839123288064>','<:categorygeography_lg_3:504332839093927946>'],
+    'History': ['<:categoryhistory_lg_1:504332836787060739>','<:categoryhistory_lg_2:504332837785436161>','<:categoryhistory_lg_3:504332838653657090>'],
+    'Literature': ['<:categoryliterature_lg_1:504332837667733505>','<:categoryliterature_lg_2:504332838133563392>','<:categoryliterature_lg_3:504332837395103775>'],
+    'Movies': ['<:categorymovies_lg_1:504332838338822147>','<:categorymovies_lg_2:504332838058065931>','<:categorymovies_lg_3:504332839035338762>'],
+    'Music': ['<:categorymusic_lg_1:504332838569771008>','<:categorymusic_lg_2:504332838154534917>','<:categorymusic_lg_3:504332838951452690>'],
+    'Nature': ['<:categorynature_lg_1:504332839668547604>','<:categorynature_lg_2:504332839182008341>','<:categorynature_lg_3:504332838724829185>'],
+    'Science': ['<:categoryscience_lg_1:504332838695338025>','<:categoryscience_lg_2:504332839446380545>','<:categoryscience_lg_3:504332840322859018>'],
+    'Sports': ['<:categorysports_lg_1:504332838938869763>','<:categorysports_lg_2:504332841631612929>','<:categorysports_lg_3:504332841547726859>'],
+    'TV': ['<:categorytv_lg_1:504332838716440586>','<:categorytv_lg_2:504332839253311488>','<:categorytv_lg_3:504332839605501968>']
   }.to_json).freeze
+  # replace emojis with ones on your server if you want however they should work as all bots have nitro powers.
 
   command(:badges) do |event, *namearg|
     name = namearg.join(' ') unless namearg.length.zero?
@@ -77,6 +78,11 @@ module Badges
           total += tot
           name = e['name']
 
+          # prepare yourself for some digusting code
+          level = 2
+          level = 1 unless e['earnedAchievements'][1]['progressPct'] >= 100
+          level = 0 unless e['earnedAchievements'][0]['progressPct'] >= 100
+
           output = []
           output += ["Level 1 - #{e['earnedAchievements'][0]['progressPct'].round(2)}%"] unless e['earnedAchievements'][0]['progressPct'] >= 100
           output += ["Level 2 - #{e['earnedAchievements'][1]['progressPct'].round(2)}%"] unless e['earnedAchievements'][1]['progressPct'] >= 100
@@ -86,7 +92,7 @@ module Badges
 
           output = [output[0]] if output.length.positive?
 
-          embed.add_field(name: "#{ROLE_ID[name]} - #{name}", value: output.join("\n"), inline: true)
+          embed.add_field(name: "#{ROLE_ID[name][level]} - #{name}", value: output.join("\n"), inline: true)
         end
 
         embed.add_field(name: '​', value: '​', inline: true)

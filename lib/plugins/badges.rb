@@ -1,6 +1,20 @@
 module Badges
   extend Discordrb::Commands::CommandContainer
 
+  ROLE_ID = JSON.parse({
+    'Business': '<:business_badge:503357666211659797>',
+    'Celebrity': '<:entertainment_badge:503357666106802176>',
+    'Geography': '<:geography_badge:503357666408529920>',
+    'History': '<:history_badge:503357666354003981>',
+    'Literature': '<:literature_badge:503357666362654741>',
+    'Movies': '<:movies_badge:503357666240757761>',
+    'Music': '<:music_badge:503357666912108546>',
+    'Nature': '<:nature_badge:503357666794668032>',
+    'Science': '<:science_badge:503357666463055882>',
+    'Sports': '<:sports_badge:503357666794405919>',
+    'TV': '<:tv_badge:503365650165661716>'
+  }.to_json).freeze
+
   command(:badges) do |event, *namearg|
     name = namearg.join(' ') unless namearg.length.zero?
     user = BotUser.new(event.user.id)
@@ -72,7 +86,7 @@ module Badges
 
           output = [output[0]] if output.length.positive?
 
-          embed.add_field(name: name, value: output.join("\n"), inline: true)
+          embed.add_field(name: "#{ROLE_ID[name]} - #{name}", value: output.join("\n"), inline: true)
         end
 
         embed.add_field(name: '​', value: '​', inline: true)

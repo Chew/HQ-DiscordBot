@@ -100,8 +100,9 @@ Bot.server_delete do |event|
   end
 end
 
-Bot.message(starts_with: /prefixes.join('|')/) do |_event|
+Bot.message(starts_with: /prefixes.join('|')/) do |event|
   Commands.add
+  puts "Command ran by #{event.user.distinct} (#{event.user.id}): #{event.message.content}"
   nil
 end
 

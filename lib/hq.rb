@@ -100,7 +100,7 @@ Bot.server_delete do |event|
   end
 end
 
-Bot.message(starts_with: prefixes) do |_event|
+Bot.message(starts_with: /prefixes.join('|')/) do |_event|
   Commands.add
   nil
 end

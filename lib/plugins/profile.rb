@@ -34,7 +34,7 @@ module Profile
     end
   end
 
-  command(:set) do |event, type, *setting|
+  command(:set, min_args: 2) do |event, type, *setting|
     setting = setting.join(' ')
     dbuser = BotUser.new(event.user.id)
     unless dbuser.exists?

@@ -82,8 +82,6 @@ module About
                    "Commit: #{commits}"
                  end
 
-    puts Commands.get
-
     begin
       event.channel.send_embed do |e|
         e.title = 'HQ Trivia Bot Stats!'
@@ -94,7 +92,7 @@ module About
         e.add_field(name: 'Library', value: 'discordrb 3.2.1', inline: true)
         e.add_field(name: 'Uptime', value: "#{days}#{hours}#{mins}#{secs}", inline: true)
         e.add_field(name: 'Server Count', value: event.bot.servers.count, inline: true)
-        e.add_field(name: 'Commands Ran', value: Commands.get, inline: true)
+        # e.add_field(name: 'Commands Ran', value: Commands.get, inline: true)
         e.add_field(name: 'Total User Count', value: event.bot.users.count, inline: true)
         e.color = '36399A'
       end

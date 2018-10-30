@@ -100,11 +100,11 @@ Bot.server_delete do |event|
   end
 end
 
-Bot.message(starts_with: /prefixes.join('|')/) do |event|
-  Commands.add
-  puts "Command ran by #{event.user.distinct} (#{event.user.id}): #{event.message.content}"
-  nil
-end
+#Bot.message(starts_with: /prefixes.join('|')/) do |event|
+# Commands.add
+#  puts "Command ran by #{event.user.distinct} (#{event.user.id}): #{event.message.content}"
+#  nil
+#end
 
 puts 'Done loading plugins! Finalizing start-up'
 

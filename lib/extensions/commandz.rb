@@ -7,6 +7,10 @@ class Commandz
     @commands += 1
   end
 
+  def reset
+    @commands = 0
+  end
+
   attr_reader :commands
   alias get commands
 end

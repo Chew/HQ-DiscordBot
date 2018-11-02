@@ -30,7 +30,7 @@ module User
     event.respond "HQ User ID for #{name} is #{id}"
   end
 
-  command(%i[user stats], min_args: 0) do |event, *namearg|
+  command(:user, alises: [:stats], min_args: 0) do |event, *namearg|
     keys = JSON.parse(File.read('keys.json'))
     name = namearg.join(' ') unless namearg.length.zero?
     user = BotUser.new(event.user.id)

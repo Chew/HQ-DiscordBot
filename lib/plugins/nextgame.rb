@@ -1,7 +1,7 @@
 module NextGame
   extend Discordrb::Commands::CommandContainer
 
-  command(%i[nextgame next game]) do |event, region|
+  command(:nextgame, aliases: [:next]) do |event, region|
     dbuser = BotUser.new(event.user.id)
     if dbuser.exists? && region.nil?
       region = dbuser.region

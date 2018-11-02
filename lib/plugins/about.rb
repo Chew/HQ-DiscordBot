@@ -1,7 +1,7 @@
 module About
   extend Discordrb::Commands::CommandContainer
 
-  command(%i[help about]) do |event|
+  command(:help, aliases: [:about]) do |event|
     begin
       event.channel.send_embed do |embed|
         embed.title = 'Welcome to the HQ Discord Bot'
@@ -64,7 +64,7 @@ module About
     event.respond 'Hello! Invite me to your server here: <https://discordapp.com/api/oauth2/authorize?client_id=463127758143225874&permissions=18432&scope=bot>. Join my help server here: https://discord.gg/59N3FcX'
   end
 
-  command(%i[bot info]) do |event|
+  command(:info, aliases: [:bot]) do |event|
     t = Time.now - Starttime
     mm, ss = t.divmod(60)
     hh, mm = mm.divmod(60)

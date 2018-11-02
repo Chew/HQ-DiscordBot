@@ -86,7 +86,7 @@ module About
       event.channel.send_embed do |e|
         e.title = 'HQ Trivia Bot Stats!'
 
-        e.add_field(name: 'Author', value: Bot.user(476488167042580481).distinct, inline: true)
+        e.add_field(name: 'Author', value: Bot.user(CONFIG['owner_id']).distinct, inline: true)
         e.add_field(name: 'Code', value: '[Code on GitHub](http://github.com/Chewsterchew/HQ-DiscordBot)', inline: true)
         e.add_field(name: 'Bot Version', value: botversion, inline: true) unless botversion == ''
         e.add_field(name: 'Library', value: 'discordrb 3.2.1', inline: true)

@@ -58,7 +58,7 @@ module Restart
 
   command(:shoo) do |event|
     break unless event.user.id == CONFIG['owner_id']
-    event.send_temporary_message('I am shutting dowm, it\'s been a long run folks!', 3)
+    event.send_temporary_message('I am shutting down, it\'s been a long run folks!', 3)
     sleep 3
     exit
   end

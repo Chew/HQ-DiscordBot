@@ -22,8 +22,8 @@ module Question
         data['question']['choice3']
       ].join("\n")
 
-      embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: 'HQ Random Question')
-      embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Answer will be revealed in ' + delay.to_s + ' seconds...') unless delay.zero? || delay == -1
+      embed.author = { name: 'HQ Random Question' }
+      embed.footer = { text: 'Answer will be revealed in ' + delay.to_s + ' seconds...' } unless delay.zero? || delay == -1
     end
     if delay.zero? || delay == -1
       break

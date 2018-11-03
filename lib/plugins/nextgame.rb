@@ -58,7 +58,7 @@ module NextGame
         else
           embed.title = 'Upcoming HQ Game'
           embed.colour = '36399A'
-          embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Show Time')
+          embed.footer = { text: 'Show Time' }
           embed.timestamp = Time.parse(data['upcoming'][0]['time'])
         end
 

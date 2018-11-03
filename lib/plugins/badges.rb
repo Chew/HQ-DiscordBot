@@ -68,7 +68,7 @@ module Badges
 
     begin
       event.channel.send_embed do |embed|
-        embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "Badge stats for #{username}")
+        embed.author = { name: "Badge stats for #{username}" }
         embed.colour = '36399A'
 
         data['families'].each do |e|

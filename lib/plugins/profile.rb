@@ -27,7 +27,7 @@ module Profile
         embed.add_field(name: 'Extra User Stats', value: extras.join("\n"), inline: true) unless extras.length.zero?
         embed.add_field(name: 'Special Perks', value: perks.join("\n"), inline: true) unless perks.length.zero?
 
-        embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Change with: hq, set [type] [option]')
+        embed.footer = { text: 'Change with: hq, set [type] [option]' }
       end
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'

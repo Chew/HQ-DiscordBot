@@ -137,7 +137,7 @@ module User
 
     begin
       event.channel.send_embed do |embed|
-        embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "User stats for #{data['username']}", url: URI.escape(data['referralUrl']))
+        embed.author = { name: "User stats for #{data['username']}" }
         embed.colour = '36399A'
 
         embed.add_field(name: 'Game Stats', value: [
@@ -170,7 +170,7 @@ module User
           end
         end
 
-        embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Account created on')
+        embed.footer = { text: 'Account created on' }
         embed.timestamp = Time.parse(data['created'])
         embed.thumbnail = { url: data['avatarUrl'].to_s }
       end

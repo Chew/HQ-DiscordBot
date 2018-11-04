@@ -89,7 +89,7 @@ module About
         e.add_field(name: 'Author', value: Bot.user(CONFIG['owner_id']).distinct, inline: true)
         e.add_field(name: 'Code', value: '[Code on GitHub](http://github.com/Chewsterchew/HQ-DiscordBot)', inline: true)
         e.add_field(name: 'Bot Version', value: botversion, inline: true) unless botversion == ''
-        e.add_field(name: 'Library', value: 'discordrb 3.2.1', inline: true)
+        e.add_field(name: 'Library', value: 'discordrb 3.3.0', inline: true)
         e.add_field(name: 'Uptime', value: "#{days}#{hours}#{mins}#{secs}", inline: true)
         e.add_field(name: 'Server Count', value: event.bot.servers.count, inline: true)
         # e.add_field(name: 'Commands Ran', value: Commands.get, inline: true)

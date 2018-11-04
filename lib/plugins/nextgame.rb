@@ -9,16 +9,16 @@ module NextGame
       region = 'us'
     end
 
-    case region.downcase
-    when 'us'
-      stk = 'MQ=='
-    when 'uk'
-      stk = 'Mg=='
-    when 'de'
-      stk = 'Mw=='
-    when 'au'
-      stk = 'NA=='
-    end
+    stk = case region.downcase
+          when 'uk'
+            'Mg=='
+          when 'de'
+            'Mw=='
+          when 'au'
+            'NA=='
+          else
+            'MQ=='
+          end
     data = RestClient.get('https://api-quiz.hype.space/shows/now',
                           params: { type: 'hq' },
                           'x-hq-stk': stk,

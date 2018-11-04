@@ -3,28 +3,27 @@ module Restart
 
   command(:restart) do |event|
     unless event.user.id == CONFIG['owner_id']
-      event.respond "You can't restart! (If you are the owner of the bot, you did not configure properly! Otherwise, stop trying to update the bot!)"
+      event.respond "Sorry kiddo, you can't restart the bot!"
       break
     end
-    event.respond 'Restarting the bot without updating...'
+    event.respond 'Restarting the bot...'
     sleep 1
     exec('ruby run.rb')
   end
 
   command(:update) do |event|
     unless event.user.id == CONFIG['owner_id']
-      event.respond "You can't update! (If you are the owner of the bot, you did not configure properly! Otherwise, stop trying to update the bot!)"
+      event.respond "Imma keep it real with u chief! You can't update the bot."
       return
     end
     m = event.respond 'Updating...'
-    sleep 1
     changes = `git pull`
     m.edit('', Discordrb::Webhooks::Embed.new(
                  title: '**Updated Successfully**',
 
                  description: changes,
                  color: 0x7ED321
-    ))
+               ))
   end
 
   command(:updates) do |event|
@@ -32,7 +31,7 @@ module Restart
     response = `git rev-list origin/master | wc -l`.to_i
     commits = `git rev-list master | wc -l`.to_i
     if commits.zero?
-      event.respond "Your machine doesn't support git or it isn't working!"
+      event.respond 'Git machine broke! Call the department!'
       break
     end
     if event.user.id == CONFIG['owner_id']
@@ -57,9 +56,11 @@ module Restart
   end
 
   command(:shoo) do |event|
-    break unless event.user.id == CONFIG['owner_id']
-    event.send_temporary_message('I am shutting down, it\'s been a long run folks!', 3)
-    sleep 3
+    unless event.user.id == CONFIG['owner_id']
+      event.respond 'Why are you trying to kill Scott Rogowsky? What has he ever done to you? Leave Scott and this bot alone!'
+      return
+    end
+    event.respond "I am shutting down, it's been a long run folks!"
     exit
   end
 end

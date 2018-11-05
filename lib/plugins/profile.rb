@@ -1,11 +1,34 @@
 module Profile
   extend Discordrb::Commands::CommandContainer
 
-  command(:profile) do |event|
-    dbuser = BotUser.new(event.user.id)
-    unless dbuser.exists?
-      DBHelper.newuser(event.user.id, event.user.display_name, 'us')
+  command(:profile, min_args: 0, max_args: 1) do |event, user|
+    if user.nil?
       dbuser = BotUser.new(event.user.id)
+      unless dbuser.exists?
+        DBHelper.newuser(event.user.id, event.user.display_name, 'us')
+        dbuser = BotUser.new(event.user.id)
+      end
+      nametouse = event.user.distinct
+    else
+      id = if user.include?('<')
+             Bot.parse_mention(user).id
+           else
+             user
+           end
+      dbuser = BotUser.new(id)
+      unless dbuser.exists?
+        begin
+          event.channel.send_embed do |embed|
+            embed.title = 'Error while getting that user\'s profile'
+            embed.colour = 'E6286E'
+            embed.description = 'That user doesn\'t appear to have a profile! :('
+          end
+        rescue Discordrb::Errors::NoPermission
+          event.respond 'That user doesn\'t appear to have a profile! :('
+        end
+        break
+      end
+      nametouse = Bot.user(id).distinct
     end
 
     perks = []
@@ -19,7 +42,7 @@ module Profile
 
     begin
       event.channel.send_embed do |embed|
-        embed.title = "HQBot Profile for #{event.user.name}"
+        embed.title = "HQ Trivia Bot Profile for #{nametouse}"
         embed.colour = '36399A'
 
         embed.add_field(name: 'HQ Username', value: dbuser.username, inline: true)

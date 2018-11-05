@@ -1,7 +1,7 @@
 module Leaderboard
   extend Discordrb::Commands::CommandContainer
 
-  command(:leaderboard, aliases: %i[lb leader rank ranks], min_args: 0, max_args: 1) do |event, *hahayes|
+  command(:leaderboard, aliases: %i[lb leader rank ranks], min_args: 0, max_args: 1) do |event, type|
     if type == 'weekly'
       type = 1
     elsif ['all-time', 'all', 'alltime'].include? type

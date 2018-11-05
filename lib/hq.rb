@@ -34,7 +34,7 @@ Bot.command(:reload) do |event|
 end
 
 Bot.server_create do |event|
-  DBL.stats.updateservercount(event.bot.servers.count) unless CONFIG['dbotsorg'].nil?
+  DBL.stats.updateservercount(event.bot.servers.count, Bot.shard_key[0], Bot.shard_key[1]) unless CONFIG['dbotsorg'].nil?
   Bot.channel(471_092_848_238_788_608).send_embed do |e|
     e.title = 'I did a join'
 
@@ -53,7 +53,7 @@ Bot.server_create do |event|
 end
 
 Bot.server_delete do |event|
-  DBL.stats.updateservercount(event.bot.servers.count) unless CONFIG['dbotsorg'].nil?
+  DBL.stats.updateservercount(event.bot.servers.count, Bot.shard_key[0], Bot.shard_key[1]) unless CONFIG['dbotsorg'].nil?
   Bot.channel(471_092_848_238_788_608).send_embed do |e|
     e.title = 'I did a leave'
 

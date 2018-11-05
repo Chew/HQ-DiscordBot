@@ -150,7 +150,7 @@ module User
         unstat += [data['leaderboard']['total']]
 
         unclaimed = data['leaderboard']['unclaimed']
-        unstat += [" (#{unclaimed} unclaimed)"] unless unclaimed == '$0'
+        unstat += [" (#{unclaimed} unclaimed)"] unless ['$0', '£0', '€0', 'A$0'].include? unclaimed
 
         embed.add_field(name: 'Amount Won', value: unstat.join("\n"), inline: true)
 

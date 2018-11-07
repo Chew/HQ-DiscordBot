@@ -3,11 +3,12 @@ module Eval
 
   command(:eval) do |event, *code|
     break unless event.user.id == CONFIG['owner_id']
+
     begin
       event.channel.send_embed do |e|
         e.title = '**Evaluated Successfully**'
 
-        evaluated = eval code.join(' ')
+        evaluated = eval code.join(' ').to_s
 
         e.description = evaluated
         e.color = '00FF00'

@@ -6,9 +6,10 @@ module Restart
       event.respond "Sorry kiddo, you can't restart the bot!"
       break
     end
-    event.respond 'Restarting the bot...'
+    shard = Bot.shard_key[0]
+    event.respond "Restarting the bot on shard ##{shard}..."
     sleep 1
-    exec('ruby run.rb')
+    exec("ruby run.rb #{Bot.shard_key[0]}")
   end
 
   command(:update) do |event|

@@ -52,8 +52,8 @@ class BotUser
     @results['bughunter'] == 1
   end
 
-  def authkey=(updated)
-    @helper.updateuser(@id, 'authkey', updated.to_i)
+  def bughunter=(updated)
+    @helper.updateuser(@id, 'bughunter', updated.to_i)
   end
 
   def lives?

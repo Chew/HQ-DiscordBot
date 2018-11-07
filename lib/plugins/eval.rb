@@ -8,9 +8,9 @@ module Eval
       event.channel.send_embed do |e|
         e.title = '**Evaluated Successfully**'
 
-        evaluated = eval code.join(' ').to_s
+        evaluated = eval code.join(' ')
 
-        e.description = evaluated
+        e.description = evaluated.to_s
         e.color = '00FF00'
       end
     rescue StandardError => f

@@ -24,7 +24,8 @@ begin
     host: CONFIG['db']['host'],
     username: CONFIG['db']['username'],
     password: CONFIG['db']['password'],
-    database: CONFIG['db']['database']
+    database: CONFIG['db']['database'],
+    reconnect: true
   )
 rescue Mysql2::Error::ConnectionError
   puts 'Unable to connect to the database. Good going!'

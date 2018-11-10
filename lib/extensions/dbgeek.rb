@@ -12,4 +12,13 @@ class DbGeek
   def updateuser(id, item, value)
     DB.query("UPDATE `hqtriviabot_profiles` SET `#{item}` = '#{value}' WHERE `hqtriviabot_profiles`.`userid` = #{id.to_i}")
   end
+
+  def getvotes(id)
+    result = DB.query("SELECT * FROM `hqtriviabot_votes` WHERE `userid` = #{id.to_i}")
+    results = ''
+    result.each do |row|
+      results = row
+    end
+    [results['month'], results['alltime']]
+  end
 end

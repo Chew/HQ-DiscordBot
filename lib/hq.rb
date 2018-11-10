@@ -33,8 +33,13 @@ Bot.command(:reload) do |event|
   event.respond 'Reloaded sucessfully!'
 end
 
+def servers(servers)
+  DBL.stats.updateservercount(servers, Bot.shard_key[0], Bot.shard_key[1]) unless CONFIG['dbotsorg'].nil?
+  RestClient.post("https://discordsbestbots.xyz/api/bots/#{CONFIG['client_id']}", { 'guilds': DBL.stats.servers, 'shard_count': Bot.shard_key[1] }, Authorization: CONFIG['dbbapi'], 'Content-Type': :json) unless CONFIG['dbbapi'].nil?
+end
+
 Bot.server_create do |event|
-  DBL.stats.updateservercount(event.bot.servers.count, Bot.shard_key[0], Bot.shard_key[1]) unless CONFIG['dbotsorg'].nil?
+  servers(event.bot.servers.count)
   Bot.channel(471_092_848_238_788_608).send_embed do |e|
     e.title = 'I did a join'
 
@@ -54,7 +59,7 @@ Bot.server_create do |event|
 end
 
 Bot.server_delete do |event|
-  DBL.stats.updateservercount(event.bot.servers.count, Bot.shard_key[0], Bot.shard_key[1]) unless CONFIG['dbotsorg'].nil?
+  servers(event.bot.servers.count)
   Bot.channel(471_092_848_238_788_608).send_embed do |e|
     e.title = 'I did a leave'
 

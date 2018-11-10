@@ -41,6 +41,7 @@ Bot.server_create do |event|
     e.add_field(name: 'Server Name', value: event.server.name, inline: true)
     e.add_field(name: 'Server ID', value: event.server.id, inline: true)
     e.add_field(name: 'Server Count', value: event.bot.servers.count, inline: true)
+    e.add_field(name: 'Shard', value: Bot.shard_key[0].to_s, inline: true)
     e.add_field(name: 'User Count', value: event.server.members.count, inline: true)
 
     userid = CONFIG['owner_id'].to_i
@@ -60,6 +61,7 @@ Bot.server_delete do |event|
     e.add_field(name: 'Server Name', value: event.server.name, inline: true)
     e.add_field(name: 'Server ID', value: event.server.id, inline: true)
     e.add_field(name: 'Server Count', value: event.bot.servers.count, inline: true)
+    e.add_field(name: 'Shard', value: Bot.shard_key[0].to_s, inline: true)
 
     e.color = 'FF0000'
   end

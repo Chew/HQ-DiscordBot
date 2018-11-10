@@ -30,7 +30,8 @@ module About
           '`hq, ping` - Ping the bot',
           '`hq, invite` - Invite the bot',
           '`hq, info` - Find stats on the bot',
-          '`hq, lib` - HQ Bot Open-Source Libraries'
+          '`hq, lib` - HQ Bot Open-Source Libraries',
+          '`hq, votes` - See your votes!'
         ].join("\n"), inline: false)
 
         embed.add_field(name: 'HQ Stats Commands', value: [

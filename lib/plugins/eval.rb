@@ -8,7 +8,7 @@ module Eval
       event.channel.send_embed do |e|
         e.title = '**Evaluated Successfully**'
 
-        evaluated = eval code.join(' ')
+        evaluated = eval code.join(' ').tr("\n", ';')
 
         e.description = evaluated.to_s
         e.color = '00FF00'

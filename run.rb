@@ -1,9 +1,3 @@
-puts "Let's start that bot!"
-
-ARGV.each do |e|
-  puts "Argument found: #{e}"
-end
-
 require 'discordrb'
 require 'rest-client'
 require 'json'
@@ -12,6 +6,8 @@ require 'open-uri'
 require 'dblruby'
 require 'mysql2'
 puts 'All dependencies loaded'
+
+puts "Starting the bot on Shard #{ARGV[0]}"
 
 CONFIG = YAML.load_file('config.yaml')
 puts 'Config loaded from file'
@@ -27,12 +23,11 @@ begin
     database: CONFIG['db']['database'],
     reconnect: true
   )
+  puts 'Connected to database'
 rescue Mysql2::Error::ConnectionError
   puts 'Unable to connect to the database. Good going!'
   exit
 end
-
-puts 'Connected to database'
 
 prefixes = ["<@#{CONFIG['client_id']}>", 'hq,', 'HQ,', 'hq', 'HQ', 'Hq', 'Hq,'].freeze
 

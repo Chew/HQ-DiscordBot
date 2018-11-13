@@ -82,8 +82,6 @@ puts 'Done loading plugins! Finalizing start-up'
 
 Bot.ready do |_event|
   Bot.game = 'with Scott Rogowsky! | hq, help'
-  sleep 180
-  redo
 end
 
 puts 'Bot is ready!'

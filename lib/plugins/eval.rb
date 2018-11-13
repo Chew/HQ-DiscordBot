@@ -8,12 +8,14 @@ module Eval
       event.channel.send_embed do |e|
         e.title = '**Evaluated Successfully**'
 
-        evaluated = eval code.join(' ').tr("\n", ';')
+        prefix = event.message.content.tr("\n", ' ').gsub(code.join(' '), '')
+
+        evaluated = eval event.message.content.gsub(prefix, '').tr("\n", ';')
 
         e.description = evaluated.to_s
         e.color = '00FF00'
       end
-    rescue StandardError => f
+    rescue StandardError, ScriptError => f
       event.channel.send_embed do |e|
         e.title = '**Evaluation Failed!**'
 

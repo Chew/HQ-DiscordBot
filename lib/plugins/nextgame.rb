@@ -66,7 +66,7 @@ module NextGame
 
         embed.add_field(name: 'Prize', value: prize, inline: true)
         embed.add_field(name: 'Type', value: kind, inline: true)
-        embed.add_field(name: 'Show Type', value: type, inline: true)
+        # embed.add_field(name: 'Show Type', value: type, inline: true)
       end
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'

@@ -64,6 +64,14 @@ class BotUser
     @helper.updateuser(@id, 'lives', updated.to_i)
   end
 
+  def erase1s?
+    @results['erase1s'] == 1
+  end
+
+  def erase1s=(updated)
+    @helper.updateuser(@id, 'erase1s', updated.to_i)
+  end
+
   def streaks?
     @results['streaks'] == 1
   end

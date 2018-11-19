@@ -50,6 +50,7 @@ module User
 
       teste = RestClient.get('https://api-quiz.hype.space/users/me',
                              Authorization: key,
+                             'x-hq-client': 'iOS/1.3.27 b121',
                              'Content-Type': :json)
 
       teste = JSON.parse(teste)
@@ -85,6 +86,7 @@ module User
 
     data = RestClient.get("https://api-quiz.hype.space/users/#{id}",
                           Authorization: key,
+                          'x-hq-client': 'iOS/1.3.27 b121',
                           'Content-Type': :json)
 
     data = JSON.parse(data)
@@ -161,7 +163,11 @@ module User
         embed.add_field(name: 'Ranking', value: ranks.join("\n"), inline: true) if showrank
 
         if namearg.length.zero? && user.exists? && extra
-          embed.add_field(name: 'Extra Lives', value: "#{data['lives']} Lives", inline: true) if profile.lives?
+          powerups = []
+          powerups.push("#{data['lives']} Lives") if profile.lives?
+          powerups.push("#{data['erase1s']} Erasers") if profile.erase1s?
+
+          embed.add_field(name: 'Power Ups', value: powerups.join("\n"), inline: true) unless powerups.nil?
           if profile.streaks?
             embed.add_field(name: 'Streak Info', value: [
               "#{data['streakInfo']['target'] - data['streakInfo']['current']} days left",

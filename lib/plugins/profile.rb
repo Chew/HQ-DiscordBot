@@ -39,6 +39,7 @@ module Profile
     extras = []
     extras += ['Extra Lives'] if dbuser.lives?
     extras += ['Streak Info'] if dbuser.streaks?
+    extras += ['Erasers'] if dbuser.erase1s?
 
     begin
       event.channel.send_embed do |embed|

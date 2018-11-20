@@ -16,4 +16,8 @@ module Extra
   command(:epic) do |event|
     event.respond 'Okay, now this is epic.'
   end
+
+  command(:its) do |event|
+    event.respond 'https://cdn.discordapp.com/attachments/440364222392827904/514152155578630167/IMG_3911.PNG'
+  end
 end

@@ -29,23 +29,17 @@ module Votes
                      'Yes! [Vote](https://discordbots.org/bot/463127758143225874/vote) for perks!'
                    end
           embed.add_field(name: 'Can vote now?', value: status, inline: true)
+
+          tot = DBL.self
+
+          totmonth = tot.monthlyvotes
+          totalltime = tot.votes
+
+          # hey = ["#{totmonth} (#{permonth}%)", "#{totalltime} (#{perall}%)"]
+          hey = ["Month - #{totmonth}", "All-Time - #{totalltime} "]
+
+          embed.add_field(name: 'Bot Votes', value: hey.join("\n"), inline: true)
         end
-        tot = DBHelper.getallvotes
-
-        totmonth = 0
-        totalltime = 0
-        tot.each do |e|
-          totmonth += e['month']
-          totalltime += e['alltime']
-        end
-
-        permonth = (month.to_f / totmonth.to_f * 100).round(2)
-        perall = (all.to_f / totalltime.to_f * 100).round(2)
-
-        # hey = ["#{totmonth} (#{permonth}%)", "#{totalltime} (#{perall}%)"]
-        hey = ["Month - #{totmonth}", "All-Time - #{totalltime} "]
-
-        embed.add_field(name: 'Bot Votes', value: hey.join("\n"), inline: true)
       end
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'

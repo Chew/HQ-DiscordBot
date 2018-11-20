@@ -46,6 +46,8 @@ module Profile
         embed.title = "HQ Trivia Bot Profile for #{nametouse}"
         embed.colour = '36399A'
 
+        embed.description = '[Manage your Profile Online!](https://api.chew.pro/hqbot)'
+
         embed.add_field(name: 'HQ Username', value: dbuser.username, inline: true)
         embed.add_field(name: 'Region', value: dbuser.region, inline: true)
         embed.add_field(name: 'Extra User Stats', value: extras.join("\n"), inline: true) unless extras.length.zero?

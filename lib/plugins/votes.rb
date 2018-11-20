@@ -14,7 +14,7 @@ module Votes
         embed.url = 'https://discordbots.org/bot/463127758143225874/vote'
 
         embed.add_field(name: 'Your Vote Count', value: [
-          "Week - #{month}",
+          "Month - #{month}",
           "All-Time - #{all}"
         ].join("\n"), inline: true)
         if Bot.server(463_178_169_105_645_569).members.include? event.user
@@ -23,10 +23,29 @@ module Votes
           embed.add_field(name: 'Your Current Vote Perks', value: 'Sorry, but you need to be on the [HQ Trivia Bot server](https://discord.gg/Wr2yawT) to get sweet perks.', inline: true)
         end
         if !CONFIG['dbotsorg'].nil? && DBL.stats.verifyvote(event.user.id)
-          embed.add_field(name: 'Can vote now?', value: 'Nope! Thanks for voting :D', inline: true)
-        elsif !CONFIG['dbotsorg'].nil?
-          embed.add_field(name: 'Can vote now?', value: 'Yes! [Vote](https://discordbots.org/bot/463127758143225874/vote) for perks!', inline: true)
+          status = if DBL.stats.verifyvote(event.user.id)
+                     'Nope! Thanks for voting :D'
+                   else
+                     'Yes! [Vote](https://discordbots.org/bot/463127758143225874/vote) for perks!'
+                   end
+          embed.add_field(name: 'Can vote now?', value: status, inline: true)
         end
+        tot = DBHelper.getallvotes
+
+        totmonth = 0
+        totalltime = 0
+        tot.each do |e|
+          totmonth += e['month']
+          totalltime += e['alltime']
+        end
+
+        permonth = (month.to_f / totmonth.to_f * 100).round(2)
+        perall = (all.to_f / totalltime.to_f * 100).round(2)
+
+        # hey = ["#{totmonth} (#{permonth}%)", "#{totalltime} (#{perall}%)"]
+        hey = ["Month - #{totmonth}", "All-Time - #{totalltime} "]
+
+        embed.add_field(name: 'Bot Votes', value: hey.join("\n"), inline: true)
       end
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'

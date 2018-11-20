@@ -21,4 +21,8 @@ class DbGeek
     end
     [results['month'], results['alltime']]
   end
+
+  def getallvotes
+    DB.query('SELECT * FROM `hqtriviabot_votes`')
+  end
 end

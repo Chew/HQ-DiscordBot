@@ -134,8 +134,26 @@ module User
     sup = "#{arank}#{prefix}"
 
     ranks += ["Weekly: #{hey}"]
-
     ranks += ["All-Time: #{sup}"]
+
+    words = leader['total'] != leader['alltime']['total']
+
+    amountwon = []
+    amountwon.push "Trivia: #{leader['alltime']['total']}"
+
+    currency = if leader['total'].include? '£'
+                 '£'
+               elsif leader['total'].include? 'A$'
+                 'A$'
+               elsif leader['total'].include? '€'
+                 '€'
+               else
+                 '$'
+               end
+
+    centswords = leader['totalCents'] - leader['alltime']['total'].delete(currency).to_f * 100
+
+    amountwon.push "Words: #{currency}#{centswords / 100}" if words
 
     begin
       event.channel.send_embed do |embed|
@@ -147,14 +165,10 @@ module User
           "Win Count - #{data['winCount']}"
         ].join("\n"), inline: true)
 
-        unstat = []
-
-        unstat += [data['leaderboard']['total']]
-
         unclaimed = data['leaderboard']['unclaimed']
-        unstat += [" (#{unclaimed} unclaimed)"] unless ['$0', '£0', '€0', 'A$0'].include? unclaimed
+        amountwon.push [" (#{unclaimed} unclaimed)"] unless ['$0', '£0', '€0', 'A$0'].include? unclaimed
 
-        embed.add_field(name: 'Amount Won', value: unstat.join("\n"), inline: true)
+        embed.add_field(name: 'Amount Won', value: amountwon.join("\n"), inline: true)
 
         embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
 

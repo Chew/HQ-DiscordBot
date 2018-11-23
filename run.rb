@@ -38,6 +38,7 @@ Bots.length.times do |amount|
                                                      ignore_bots: true,
                                                      num_shards: CONFIG['shards'],
                                                      shard_id: amount.to_i,
-                                                     spaces_allowed: true)
+                                                     spaces_allowed: true,
+                                                     compress_mode: :stream)
 end
 require_relative 'lib/hq'

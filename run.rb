@@ -7,8 +7,6 @@ require 'dblruby'
 require 'mysql2'
 puts 'All dependencies loaded'
 
-puts "Starting the bot on Shard #{ARGV[0]}"
-
 CONFIG = YAML.load_file('config.yaml')
 puts 'Config loaded from file'
 
@@ -31,12 +29,15 @@ end
 
 prefixes = ["<@#{CONFIG['client_id']}>", 'hq,', 'HQ,', 'hq', 'HQ', 'Hq', 'Hq,'].freeze
 
-Bot = Discordrb::Commands::CommandBot.new token: CONFIG['token'],
-                                          client_id: CONFIG['client_id'],
-                                          prefix: prefixes,
-                                          ignore_bots: true,
-                                          num_shards: CONFIG['shards'],
-                                          shard_id: ARGV[0].to_i,
-                                          spaces_allowed: true
+Bots = Array.new(CONFIG['shards'], nil)
 
+Bots.length.times do |amount|
+  Bots[amount] = Discordrb::Commands::CommandBot.new(token: CONFIG['token'],
+                                                     client_id: CONFIG['client_id'],
+                                                     prefix: prefixes,
+                                                     ignore_bots: true,
+                                                     num_shards: CONFIG['shards'],
+                                                     shard_id: amount.to_i,
+                                                     spaces_allowed: true)
+end
 require_relative 'lib/hq'

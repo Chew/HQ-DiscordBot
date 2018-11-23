@@ -11,7 +11,7 @@ module Profile
       nametouse = event.user.distinct
     else
       id = if user.include?('<')
-             Bot.parse_mention(user).id
+             event.bot.parse_mention(user).id
            else
              user
            end
@@ -28,7 +28,7 @@ module Profile
         end
         break
       end
-      nametouse = Bot.user(id).distinct
+      nametouse = event.bot.user(id).distinct
     end
 
     perks = []
@@ -106,9 +106,9 @@ module Profile
       event.respond 'Sorry, only the bot owner may set perks!'
       break
     end
-    userid = Bot.parse_mention(user).id
+    userid = event.bot.parse_mention(user).id
     dbuser = BotUser.new(userid)
-    DBHelper.newuser(userid, Bot.user(userid).displayname, 'us') unless dbuser.exists?
+    DBHelper.newuser(userid, event.bot.user(userid).displayname, 'us') unless dbuser.exists?
     case type.downcase
     when 'donator', 'authkey', 'bughunter', 'keyid'
       DBHelper.updateuser(userid, type, setting.to_i)

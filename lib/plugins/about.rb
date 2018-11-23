@@ -57,7 +57,7 @@ module About
       event.respond "Pong! Time taken: #{((Time.now - event.timestamp) * 1000).to_i} milliseconds."
     else
       m = event.respond('Pinging...')
-      m.edit "Pong! Time taken: #{((Time.now - event.timestamp) * 1000).to_i} milliseconds."
+      m.edit "Pong!! Time taken: #{((Time.now - event.timestamp) * 1000).to_i} milliseconds."
     end
   end
 
@@ -87,15 +87,32 @@ module About
       event.channel.send_embed do |e|
         e.title = 'HQ Trivia Bot Stats!'
 
-        e.add_field(name: 'Author', value: Bot.user(CONFIG['owner_id']).distinct, inline: true)
+        e.add_field(name: 'Author', value: event.bot.user(CONFIG['owner_id']).distinct, inline: true)
         e.add_field(name: 'Code', value: '[Code on GitHub](http://github.com/Chewsterchew/HQ-DiscordBot)', inline: true)
         e.add_field(name: 'Bot Version', value: botversion, inline: true) unless botversion == ''
         e.add_field(name: 'Library', value: 'discordrb 3.3.0', inline: true)
         e.add_field(name: 'Uptime', value: "#{days}#{hours}#{mins}#{secs}", inline: true)
-        e.add_field(name: 'Server Count', value: DBL.stats.servers, inline: true)
+        e.add_field(name: 'Server Count', value: DBL.stats.servers, inline: true) unless CONFIG['dbotsorg'].nil?
         # e.add_field(name: 'Commands Ran', value: Commands.get, inline: true)
         e.add_field(name: 'Total User Count', value: event.bot.users.count, inline: true)
-        e.add_field(name: 'Shard', value: Bot.shard_key[0], inline: true)
+        e.add_field(name: 'Shard', value: event.bot.shard_key[0], inline: true)
+        e.color = '36399A'
+      end
+    rescue Discordrb::Errors::NoPermission
+      event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
+    end
+  end
+
+  command(:servers) do |event|
+    servers = []
+    Bots.each do |bot|
+      servers.push "Shard \##{bot.shard_key[0]}: #{bot.servers.count} servers"
+    end
+    begin
+      event.channel.send_embed do |e|
+        e.title = 'HQ Trivia Bot Server Stats!'
+
+        e.description = servers.join("\n")
         e.color = '36399A'
       end
     rescue Discordrb::Errors::NoPermission

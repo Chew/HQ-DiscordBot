@@ -17,7 +17,7 @@ module Votes
           "Month - #{month}",
           "All-Time - #{all}"
         ].join("\n"), inline: true)
-        if Bot.server(463_178_169_105_645_569).members.include? event.user
+        if event.bot.server(463_178_169_105_645_569).members.include? event.user
           embed.add_field(name: 'Your Current Vote Perks', value: 'None! (Yet!)', inline: true)
         else
           embed.add_field(name: 'Your Current Vote Perks', value: 'Sorry, but you need to be on the [HQ Trivia Bot server](https://discord.gg/Wr2yawT) to get sweet perks.', inline: true)

@@ -1,28 +1,32 @@
 module NextGame
   extend Discordrb::Commands::CommandContainer
 
-  command(:nextgame, aliases: [:next]) do |event, region|
+  command(:nextgame, aliases: [:next]) do |event, type = 'us'|
     dbuser = BotUser.new(event.user.id)
-    if dbuser.exists? && region.nil?
-      region = dbuser.region
-    elsif region.nil?
-      region = 'us'
+    if dbuser.exists? && type.nil?
+      type = dbuser.type
+    elsif type.nil?
+      type = 'us'
     end
 
-    stk = case region.downcase
+    stk = case type.downcase
           when 'uk'
             'Mg=='
-          when 'de'
-            'Mw=='
-          when 'au'
-            'NA=='
           else
             'MQ=='
           end
-    data = RestClient.get('https://api-quiz.hype.space/shows/now',
-                          params: { type: 'hq' },
-                          'x-hq-stk': stk,
-                          'Content-Type': :json)
+
+    data = if type.downcase.include?('word')
+             RestClient.get('https://api-quiz.hype.space/shows/now',
+                            Authorization: CONFIG['api'],
+                            'x-hq-client': 'iOS/1.3.27 b121',
+                            'Content-Type': :json)
+           else
+             RestClient.get('https://api-quiz.hype.space/shows/now',
+                            params: { type: 'hq' },
+                            'x-hq-stk': stk,
+                            'Content-Type': :json)
+           end
 
     data = JSON.parse(data)
 
@@ -33,6 +37,8 @@ module NextGame
                'Normal'
              elsif data['vertical'] == 'sports'
                'Sports'
+             elsif data['vertical'] == 'words'
+               'Words'
              else
                'Unknown'
              end
@@ -40,11 +46,11 @@ module NextGame
              'Normal'
            elsif data['upcoming'][0]['vertical'] == 'sports'
              'Sports'
+           elsif data['upcoming'][0]['vertical'] == 'words'
+             'Words'
            else
              'Unknown'
            end
-
-    type = data['nextGameType']
 
     prize = if active
               data['prize'].to_s
@@ -66,7 +72,6 @@ module NextGame
 
         embed.add_field(name: 'Prize', value: prize, inline: true)
         embed.add_field(name: 'Type', value: kind, inline: true)
-        # embed.add_field(name: 'Show Type', value: type, inline: true)
       end
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'

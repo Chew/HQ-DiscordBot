@@ -121,7 +121,7 @@ module About
     end
     unless CONFIG['dbotsorg'].nil?
       countsdbl = DBL.self.shards
-      if counts != countsdbl
+      if counts != countsdbl && CONFIG['owner_id'] == event.user.id
         counts.size.times do |server|
           DBL.stats.updateservercount(counts[server], server, CONFIG['shards']) if counts[server] != countsdbl[server]
         end

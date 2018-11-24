@@ -1,5 +1,7 @@
 puts 'Initial Startup complete, loading all plugins...'
 
+require_relative 'extensions/array'
+
 require_relative 'extensions/dbgeek'
 require_relative 'extensions/commandz'
 require_relative 'extensions/botuser'

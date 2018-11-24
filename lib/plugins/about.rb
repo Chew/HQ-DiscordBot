@@ -105,9 +105,18 @@ module About
 
   command(:servers) do |event|
     servers = []
+    counts = []
     Bots.each do |bot|
       servers.push "Shard \##{bot.shard_key[0]}: #{bot.servers.count} servers"
+      counts.push bot.servers.count
     end
+    unless CONFIG['dbotsorg'].nil?
+      countsdbl = DBL.self.shards
+      DBL.stats.updateservercount(counts, nil, CONFIG['shards']) if counts != countsdbl
+    end
+    servers.push ''
+    servers.push "Total: #{counts.sum}"
+    servers.push "Average: #{counts.average}"
     begin
       event.channel.send_embed do |e|
         e.title = 'HQ Trivia Bot Server Stats!'

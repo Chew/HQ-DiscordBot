@@ -31,20 +31,29 @@ module About
           '`hq, invite` - Invite the bot',
           '`hq, info` - Find stats on the bot',
           '`hq, lib` - HQ Bot Open-Source Libraries',
-          '`hq, votes` - See your votes!'
+          '`hq, votes` - See your votes!',
+          '`hq, servers` - See HQ Bot server stats'
         ].join("\n"), inline: false)
 
         embed.add_field(name: 'HQ Stats Commands', value: [
-          '`hq, rank` - Find weekly/all-time rankings. Add arg `all` for all time.',
-          '`hq, user (name)` - Find stats for a user, leave name blank to just use your discord nick/user name',
+          '`hq, rank` - Find HQ leaderboard rankings. Add arg `all` for all time.',
+          '`hq, user (name)` - Find stats for a user, leave name blank to just use your discord display name',
           '`hq, badges (name)` - Find badge stats for a user.',
-          '`hq, nextgame (us/uk/de/au)` - Find the next game time and prize, give argument for different regions'
+          '`hq, nextgame (us|uk|words|trivia|sports)` - Find the next game time and prize, give argument for different game types'
         ].join("\n"), inline: false)
 
         embed.add_field(name: 'HQ Bot Profile Commands', value: [
           '`hq, profile` - See your profile.',
           '`hq, set username (name)` - Set your username, so that `hq, user` returns your stats.',
           '`hq, set region (us/uk/de/au)` - Set your region, so that `hq, nextgame` returns your region'
+        ].join("\n"), inline: false)
+
+        embed.add_field(name: 'Bonus Commands', value: [
+          '`hq, dab` - Make the bot dab!',
+          '`hq, life` - A totally legit guide on how to get lives.',
+          '`hq, answer` - A totally legit answer bot.',
+          '`hq, epic` - Okay, now this is epic.',
+          '`hq, its` - Grammar command! Fix your friends\' spelling of its vs it\'s!'
         ].join("\n"), inline: false)
       end
     rescue Discordrb::Errors::NoPermission

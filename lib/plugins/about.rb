@@ -121,7 +121,11 @@ module About
     end
     unless CONFIG['dbotsorg'].nil?
       countsdbl = DBL.self.shards
-      DBL.stats.updateservercount(counts, nil, CONFIG['shards']) if counts != countsdbl
+      if counts != countsdbl
+        counts.size.times do |server|
+          DBL.stats.updateservercount(counts[server], server, CONFIG['shards']) if counts[server] != countsdbl[server]
+        end
+      end
     end
     servers.push ''
     servers.push "Total: #{counts.sum}"

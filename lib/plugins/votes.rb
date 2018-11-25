@@ -13,6 +13,8 @@ module Votes
         embed.colour = 0xd084
         embed.url = 'https://discordbots.org/bot/463127758143225874/vote'
 
+        embed.description = '[Find the top voters!](https://api.chew.pro/hqbot/votes)'
+
         embed.add_field(name: 'Your Vote Count', value: [
           "Month - #{month}",
           "All-Time - #{all}"
@@ -22,7 +24,7 @@ module Votes
         else
           embed.add_field(name: 'Your Current Vote Perks', value: 'Sorry, but you need to be on the [HQ Trivia Bot server](https://discord.gg/Wr2yawT) to get sweet perks.', inline: true)
         end
-        if !CONFIG['dbotsorg'].nil? && DBL.stats.verifyvote(event.user.id)
+        unless CONFIG['dbotsorg'].nil?
           status = if DBL.stats.verifyvote(event.user.id)
                      'Nope! Thanks for voting :D'
                    else

@@ -54,11 +54,6 @@ Bots.each do |bot|
       e.add_field(name: 'Shard', value: event.bot.shard_key[0].to_s, inline: true)
       e.add_field(name: 'User Count', value: event.server.members.count, inline: true)
 
-      userid = CONFIG['owner_id'].to_i
-      user = event.bot.user(userid)
-
-      e.add_field(name: 'Are you on it?', value: event.server.members.include?(user), inline: true)
-
       e.color = '00FF00'
     end
   end
@@ -85,8 +80,12 @@ Bots.each do |bot|
 
   puts 'Done loading plugins! Finalizing start-up'
 
+  hosts = ["Scott Rogowsky", "Matt Richards", "Sarah Pribis", "David Magidoff", "Tyler West", "Lauren Gambino", "Sharon Carpenter", "Beric Livingstone"]
+
   bot.ready do |_event|
-    bot.game = 'with Scott Rogowsky! | hq, help'
+    bot.game = "with #{hosts.sample}! | hq, help"
+    sleep 180
+    redo
   end
 
   puts 'Bot is ready!'

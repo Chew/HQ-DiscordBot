@@ -80,7 +80,7 @@ Bots.each do |bot|
 
   puts 'Done loading plugins! Finalizing start-up'
 
-  hosts = ["Scott Rogowsky", "Matt Richards", "Sarah Pribis", "David Magidoff", "Tyler West", "Lauren Gambino", "Sharon Carpenter", "Beric Livingstone"]
+  hosts = ["Scott Rogowsky", "Matt Richards", "Sarah Pribis", "David Magidoff", "Tyler West", "Lauren Gambino", "Sharon Carpenter", "Beric Livingstone", "Emma Tattenbaum"]
 
   bot.ready do |_event|
     bot.game = "with #{hosts.sample}! | hq, help"

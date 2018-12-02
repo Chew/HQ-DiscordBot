@@ -136,10 +136,10 @@ module User
     ranks += ["Weekly: #{hey}"]
     ranks += ["All-Time: #{sup}"]
 
-    words = leader['total'] != leader['alltime']['total']
+    # words = leader['total'] != leader['alltime']['total']
 
     amountwon = []
-    amountwon.push "Trivia: #{leader['alltime']['total']}"
+    amountwon.push leader['alltime']['total']
 
     currency = if leader['total'].include? '£'
                  '£'
@@ -153,7 +153,7 @@ module User
 
     centswords = leader['totalCents'] - leader['alltime']['total'].delete(currency).to_f * 100
 
-    amountwon.push "Words: #{currency}#{centswords / 100}" if words
+    # amountwon.push "Words: #{currency}#{centswords / 100}" if words
 
     begin
       event.channel.send_embed do |embed|

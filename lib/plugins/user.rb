@@ -104,7 +104,7 @@ module User
     arank = leader['alltime']['rank']
 
     if wrank == 101
-      hey = "User hasn't won this week"
+      hey = "No wins this week"
     else
       prefix = case wrank.to_s.split('').last.to_i
                when 1

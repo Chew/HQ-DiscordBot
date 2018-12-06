@@ -139,7 +139,8 @@ module User
     # words = leader['total'] != leader['alltime']['total']
 
     amountwon = []
-    amountwon.push leader['alltime']['total']
+    # amountwon.push leader['alltime']['total']
+    amount.push data['leaderboard']['total']
 
     currency = if leader['total'].include? '£'
                  '£'

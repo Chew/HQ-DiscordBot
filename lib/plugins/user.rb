@@ -140,7 +140,7 @@ module User
 
     amountwon = []
     # amountwon.push leader['alltime']['total']
-    amount.push data['leaderboard']['total']
+    amountwon.push data['leaderboard']['total']
 
     currency = if leader['total'].include? '£'
                  '£'

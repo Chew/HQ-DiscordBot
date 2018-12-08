@@ -104,7 +104,7 @@ module User
     arank = leader['alltime']['rank']
 
     if wrank == 101
-      hey = "No wins this week"
+      hey = 'No wins this week'
     else
       prefix = case wrank.to_s.split('').last.to_i
                when 1
@@ -154,6 +154,11 @@ module User
 
     centswords = leader['totalCents'] - leader['alltime']['total'].delete(currency).to_f * 100
 
+    xp = []
+    xp.push data['seasonXp'][0]['currentPoints']
+    xp.push data['seasonXp'][0]['remainingPoints']
+    xp.push data['seasonXp'][0]['currentLevel']['level']
+
     # amountwon.push "Words: #{currency}#{centswords / 100}" if words
 
     begin
@@ -176,6 +181,13 @@ module User
         embed.add_field(name: 'Badges', value: "#{data['achievementCount']} badges", inline: true)
 
         embed.add_field(name: 'Ranking', value: ranks.join("\n"), inline: true) if showrank
+
+        if xp[0].positive?
+          embed.add_field(name: 'XP', value: [
+            "Level: #{xp[2]}",
+            "Points: #{xp[0]} / #{xp[0] + xp[1]}"
+          ].join("\n"), inline: true)
+        end
 
         if namearg.length.zero? && user.exists? && extra
           powerups = []

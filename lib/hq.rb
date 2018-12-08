@@ -40,7 +40,7 @@ Bots.each do |bot|
 
   def servers(servers)
     DBL.stats.updateservercount(servers, bot.shard_key[0], bot.shard_key[1]) unless CONFIG['dbotsorg'].nil?
-    RestClient.post("https://discordsbestbots.xyz/api/bots/#{CONFIG['client_id']}", { 'guilds': DBL.stats.servers, 'shards': bot.shard_key[1] }, Authorization: CONFIG['dbbapi'], 'Content-Type': :json) unless CONFIG['dbbapi'].nil?
+    RestClient.post("https://discord.bots.gg/api/v1/bots/#{CONFIG['client_id']}/stats", { 'guildCount': servers, 'shardCount': bot.shard_key[1], 'shardId': bot.shard_key[0] }, Authorization: CONFIG['dbotsgg'], 'Content-Type': :json) unless CONFIG['dbbapi'].nil?
   end
 
   bot.server_create do |event|

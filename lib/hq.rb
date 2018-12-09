@@ -13,7 +13,7 @@ Commands = Commandz.new
 
 Starttime = Time.now
 
-ServerManager = Servers.new
+ServerManager = Servers.new(CONFIG['shards'])
 
 def loadpls
   Bots.each(&:clear!)

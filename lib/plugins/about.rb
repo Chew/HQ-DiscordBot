@@ -119,14 +119,7 @@ module About
       servers.push "Shard \##{bot.shard_key[0]}: #{bot.servers.count} servers"
       counts.push bot.servers.count
     end
-    unless CONFIG['dbotsorg'].nil?
-      countsdbl = DBL.self.shards
-      if counts != countsdbl && CONFIG['owner_id'] == event.user.id
-        counts.size.times do |server|
-          DBL.stats.updateservercount(counts[server], server, CONFIG['shards']) if counts[server] != countsdbl[server]
-        end
-      end
-    end
+    bol = ServerManager.updateall(counts) if event.user.id == CONFIG['owner_id']
     servers.push ''
     servers.push "Total: #{counts.sum}"
     servers.push "Average: #{counts.average}"
@@ -136,6 +129,8 @@ module About
 
         e.description = servers.join("\n")
         e.color = '36399A'
+
+        e.footer = { text: 'Posting stats failed!' } if !bol.nil? && bol == false
       end
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'

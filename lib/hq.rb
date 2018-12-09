@@ -12,6 +12,8 @@ Commands = Commandz.new
 
 Starttime = Time.now
 
+ServerManager = Servers.new
+
 def loadpls
   Bots.each(&:clear!)
   Dir["#{File.dirname(__FILE__)}/plugins/*.rb"].each do |wow|
@@ -38,13 +40,8 @@ Bots.each do |bot|
     event.respond 'Reloaded sucessfully!'
   end
 
-  def servers(servers)
-    DBL.stats.updateservercount(servers, bot.shard_key[0], bot.shard_key[1]) unless CONFIG['dbotsorg'].nil?
-    RestClient.post("https://discord.bots.gg/api/v1/bots/#{CONFIG['client_id']}/stats", { 'guildCount': servers, 'shardCount': bot.shard_key[1], 'shardId': bot.shard_key[0] }, Authorization: CONFIG['dbotsgg'], 'Content-Type': :json) unless CONFIG['dbbapi'].nil?
-  end
-
   bot.server_create do |event|
-    servers(event.bot.servers.count)
+    ServerManager.post(event.bot.servers.count, event.bot.shard_key[0])
     event.bot.channel(471_092_848_238_788_608).send_embed do |e|
       e.title = 'I did a join'
 
@@ -59,7 +56,7 @@ Bots.each do |bot|
   end
 
   bot.server_delete do |event|
-    servers(event.bot.servers.count)
+    ServerManager.post(event.bot.servers.count, event.bot.shard_key[0])
     event.bot.channel(471_092_848_238_788_608).send_embed do |e|
       e.title = 'I did a leave'
 

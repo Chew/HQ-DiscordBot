@@ -5,6 +5,7 @@ require_relative 'extensions/array'
 require_relative 'extensions/dbgeek'
 require_relative 'extensions/commandz'
 require_relative 'extensions/botuser'
+require_relative 'extensions/servers'
 
 DBHelper = DbGeek.new
 

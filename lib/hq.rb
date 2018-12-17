@@ -81,7 +81,7 @@ Bots.each do |bot|
   hosts = ['Scott Rogowsky', 'Matt Richards', 'Sarah Pribis', 'David Magidoff', 'Tyler West', 'Lauren Gambino', 'Sharon Carpenter', 'Beric Livingstone', 'Emma Tattenbaum', 'Anna Roisman', 'Sian Welby', 'Leonie Zeumer', 'Lara Falkner', 'Kathryn Goldsmith', 'Jimmy Kimmel', "Charlie O'Connor", 'Alexandra Maurer', 'James Veitch']
 
   bot.ready do |_event|
-    bot.game = "with #{hosts.sample}! | hq, help"
+    bot.game = "RIP Colin Kroll (1984 - 2018) | hq, help"
     sleep 180
     redo
   end

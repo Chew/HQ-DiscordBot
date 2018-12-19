@@ -156,8 +156,14 @@ module User
 
     xp = []
     xp.push data['seasonXp'][0]['currentPoints']
-    xp.push data['seasonXp'][0]['remainingPoints']
+    xp.push data['seasonXp'][0]['remainingPoints'] || 0
     xp.push data['seasonXp'][0]['currentLevel']['level']
+
+    xpshow = if xp[0] == (xp[0] + xp[1])
+               'Max Points Achieved!'
+             else
+               "Points: #{xp[0]} / #{xp[0] + xp[1]}"
+             end
 
     # amountwon.push "Words: #{currency}#{centswords / 100}" if words
 
@@ -185,7 +191,7 @@ module User
         if xp[0].positive?
           embed.add_field(name: 'XP', value: [
             "Level: #{xp[2]}",
-            "Points: #{xp[0]} / #{xp[0] + xp[1]}"
+            xpshow
           ].join("\n"), inline: true)
         end
 

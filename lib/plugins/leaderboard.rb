@@ -10,6 +10,9 @@ module Leaderboard
       page = e.to_i if e.to_i != 0
     end
 
+    page = 10 if page > 11
+    page = 1 if page < 1
+
     type = if stuff.include?('all')
              0
            else

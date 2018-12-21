@@ -29,7 +29,7 @@ module AuthKeyLife
           event.channel.send_embed do |embed|
             embed.title = 'Thank you for being an AuthKey donor!'
             embed.colour = '36399A'
-            embed.description = 'Your life has been sent.'
+            embed.description = '<:extra_life:515015386517995520> Your life has been sent. <:extra_life:515015386517995520>'
           end
         rescue Discordrb::Errors::NoPermission
           event.respond 'Your life has been sent!'

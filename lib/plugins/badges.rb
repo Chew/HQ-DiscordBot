@@ -3,7 +3,7 @@ module Badges
 
   ROLE_ID = JSON.parse({
     'Business': '<:business_badge:503357666211659797>',
-    'Celebrity': '<:entertainment_badge:503357666106802176>',
+    'Entertainment': '<:entertainment_badge:503357666106802176>',
     'Geography': '<:geography_badge:503357666408529920>',
     'History': '<:history_badge:503357666354003981>',
     'Literature': '<:literature_badge:503357666362654741>',

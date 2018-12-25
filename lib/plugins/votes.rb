@@ -13,7 +13,7 @@ module Votes
         embed.colour = 0xd084
         embed.url = 'https://discordbots.org/bot/463127758143225874/vote'
 
-        embed.description = '[Find the top voters!](https://api.chew.pro/hqbot/votes)'
+        embed.description = '[Find the top voters!](https://chew.pw/hqbot/votes)'
 
         embed.add_field(name: 'Your Vote Count', value: [
           "Month - #{month}",

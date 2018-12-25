@@ -27,7 +27,7 @@ module User
 
     id = iddata[0]['userId']
 
-    event.respond "HQ User ID for #{name} is #{id}"
+    event.respond "HQ User ID for #{iddata[0]['username']} is #{id}"
   end
 
   command(:user, aliases: [:stats], min_args: 0) do |event, *namearg|

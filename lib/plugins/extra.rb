@@ -20,4 +20,10 @@ module Extra
   command(:its) do |event|
     event.respond 'https://cdn.discordapp.com/attachments/440364222392827904/514152155578630167/IMG_3911.PNG'
   end
+
+  command(:t) do |event, user|
+    event.channel.send_embed do |e|
+      e.description = "#{user} is qt"
+    end
+  end
 end

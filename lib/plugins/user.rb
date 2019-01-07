@@ -197,10 +197,10 @@ module User
 
         if namearg.length.zero? && user.exists? && extra
           powerups = []
-          powerups.push("#{data['lives']} Lives") if profile.lives?
-          powerups.push("#{data['erase1s']} Erasers") if profile.erase1s?
+          powerups.push("<:extra_life:515015386517995520> - #{data['lives']}") if profile.lives?
+          powerups.push("<:erasers:525522341111791626> - #{data['erase1s']}") if profile.erase1s?
 
-          embed.add_field(name: 'Power Ups', value: powerups.join("\n"), inline: true) unless powerups.nil?
+          embed.add_field(name: 'Power-Ups', value: powerups.join("\n"), inline: true) unless powerups.nil?
           if profile.streaks?
             embed.add_field(name: 'Streak Info', value: [
               "#{data['streakInfo']['target'] - data['streakInfo']['current']} days left",

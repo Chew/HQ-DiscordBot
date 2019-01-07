@@ -4,35 +4,15 @@ module NextGame
   command(:nextgame, aliases: [:next]) do |event, *stuff|
     stuff = stuff.join(' ').downcase
 
-    region = if stuff.include?('us')
-               'us'
-             elsif stuff.include?('uk')
-               'uk'
-             end
-
     kind = []
     kind.push 'general'
     kind.delete 'general' if stuff.include?('sports') || stuff.include?('words')
     kind.push 'sports' if stuff.include? 'sports'
     kind.push 'words' if stuff.include? 'words'
 
-    dbuser = BotUser.new(event.user.id)
-    if dbuser.exists? && region.nil?
-      region = dbuser.region
-    elsif region.nil?
-      region = 'us'
-    end
-
-    stk = case region.downcase
-          when 'uk'
-            'Mg=='
-          else
-            'MQ=='
-          end
-
     data = RestClient.get('https://api-quiz.hype.space/shows/schedule',
                           Authorization: CONFIG['api'],
-                          'x-hq-stk': stk,
+                          'x-hq-stk': 'MQ==',
                           'x-hq-client': 'iOS/1.3.27 b121',
                           'Content-Type': :json)
 
@@ -46,12 +26,6 @@ module NextGame
       next unless showstuff == ''
       showstuff = show if kind.include? show['vertical']
     end
-
-    currency = if showstuff['currency'] == 'USD'
-                 '$'
-               elsif showstuff['currency'] == 'GBP'
-                 '£'
-               end
 
     begin
       prize = (showstuff['prizeCents'] / 100).to_s
@@ -84,7 +58,7 @@ module NextGame
         embed.footer = { text: 'Show Time' }
         embed.timestamp = Time.parse(showstuff['startTime'])
 
-        embed.add_field(name: 'Prize', value: currency + prize, inline: true)
+        embed.add_field(name: 'Prize', value: "$#{prize}", inline: true)
         embed.add_field(name: 'Type', value: gametype, inline: true)
       end
     rescue Discordrb::Errors::NoPermission

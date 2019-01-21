@@ -154,16 +154,16 @@ module User
 
     centswords = leader['totalCents'] - leader['alltime']['total'].delete(currency).to_f * 100
 
-    #xp = []
-    #xp.push data['seasonXp'][0]['currentPoints']
-    #xp.push data['seasonXp'][0]['remainingPoints'] || 0
-    #xp.push data['seasonXp'][0]['currentLevel']['level']
+    xp = []
+    xp.push data['seasonXp'][0]['currentPoints']
+    xp.push data['seasonXp'][0]['remainingPoints'] || 0
+    xp.push data['seasonXp'][0]['currentLevel']['level']
 
-    #xpshow = if xp[0] == (xp[0] + xp[1])
-    #           'Max Points Achieved!'
-    #         else
-    #           "Points: #{xp[0]} / #{xp[0] + xp[1]}"
-    #         end
+    xpshow = if xp[0] == (xp[0] + xp[1])
+               'Max Points Achieved!'
+             else
+               "Points: #{xp[0]} / #{xp[0] + xp[1]}"
+             end
 
     # amountwon.push "Words: #{currency}#{centswords / 100}" if words
 
@@ -188,12 +188,12 @@ module User
 
         embed.add_field(name: 'Ranking', value: ranks.join("\n"), inline: true) if showrank
 
-        #if xp[0].positive?
-        #  embed.add_field(name: 'XP', value: [
-        #    "Level: #{xp[2]}",
-        #    xpshow
-        #  ].join("\n"), inline: true)
-        #end
+        if xp[0].positive?
+          embed.add_field(name: 'XP', value: [
+            "Level: #{xp[2]}",
+            xpshow
+          ].join("\n"), inline: true)
+        end
 
         if namearg.length.zero? && user.exists? && extra
           powerups = []

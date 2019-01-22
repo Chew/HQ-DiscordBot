@@ -7,7 +7,7 @@ class Servers
 
   def post(count, shard)
     DBL.stats.updateservercount(count, shard, @shards) unless CONFIG['dbotsorg'].nil?
-    RestClient.post("https://discord.bots.gg/api/v1/bots/#{CONFIG['client_id']}/stats", { 'guildCount': count, 'shardCount': @shards, 'shardId': shard }, Authorization: CONFIG['dbotsgg'], 'Content-Type': :json) unless CONFIG['dbbapi'].nil?
+    RestClient.post("https://discord.bots.gg/api/v1/bots/#{CONFIG['client_id']}/stats", { 'guildCount': count, 'shardCount': @shards, 'shardId': shard }, Authorization: CONFIG['dbotsgg'], 'Content-Type': :json) unless CONFIG['dbotsgg'].nil?
     true
   rescue StandardError
     false

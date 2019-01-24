@@ -65,9 +65,9 @@ module NextGame
         embed.timestamp = Time.parse(showstuff['startTime'])
 
         if points
-          embed.add_field(name: 'Prize', value: "#{prize.to_sc} points", inline: true)
+          embed.add_field(name: 'Prize', value: "#{prize.to_i.to_sc} points", inline: true)
         else
-          embed.add_field(name: 'Prize', value: "$#{prize.to_sc}", inline: true)
+          embed.add_field(name: 'Prize', value: "$#{prize.to_i.to_sc}", inline: true)
         end
         embed.add_field(name: 'Type', value: gametype, inline: true)
       end

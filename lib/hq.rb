@@ -17,6 +17,8 @@ Starttime = Time.now
 
 ServerManager = Servers.new(CONFIG['shards'])
 
+Scheduler = Rufus::Scheduler.new
+
 def loadpls
   Bots.each(&:clear!)
   Dir["#{File.dirname(__FILE__)}/plugins/*.rb"].each do |wow|

@@ -33,6 +33,12 @@ def loadpls
   end
 end
 
+Scheduler.in '10h' do
+  puts "Restarting the bot..."
+  sleep 1
+  exec("ruby run.rb")
+end
+
 loadpls
 
 Bots.each do |bot|

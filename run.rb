@@ -5,6 +5,7 @@ require 'yaml'
 require 'open-uri'
 require 'dblruby'
 require 'mysql2'
+require 'rufus-scheduler'
 puts 'All dependencies loaded'
 
 CONFIG = YAML.load_file('config.yaml')

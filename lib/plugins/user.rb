@@ -169,7 +169,7 @@ module User
 
     begin
       event.channel.send_embed do |embed|
-        embed.author = { name: "User stats for #{data['username']}" }
+        embed.author = { name: "User stats for #{data['username']}", url: "https://stats.hqtrivia.pro/user/#{data['username']}" }
         embed.colour = '36399A'
 
         embed.add_field(name: 'Game Stats', value: [

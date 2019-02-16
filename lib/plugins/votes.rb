@@ -4,8 +4,8 @@ module Votes
   command(:votes) do |event|
     voterbois = DBHelper.getvotes(event.user.id)
 
-    month = voterbois[0]
-    all = voterbois[1]
+    month = voterbois[0] || 0
+    all = voterbois[1] || 0
 
     begin
       event.channel.send_embed do |embed|

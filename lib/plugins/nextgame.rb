@@ -30,7 +30,7 @@ module NextGame
     begin
       prize = "$#{(showstuff['prizeCents'] / 100).to_i.to_sc}"
 
-      prize = "$#{prize}\n#{showstuff['prizePoints']/1000000}M points" unless showstuff['prizePoints'].nil? || showstuff['prizePoints'].zero?
+      prize = "#{prize}\n#{showstuff['prizePoints']/1000000}M points" unless showstuff['prizePoints'].nil? || showstuff['prizePoints'].zero?
     rescue NoMethodError
       begin
         event.channel.send_embed do |embed|

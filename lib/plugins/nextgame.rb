@@ -28,13 +28,9 @@ module NextGame
     end
 
     begin
-      if showstuff['prizeCents'].nil?
-        prize = showstuff['prizePoints']
-        points = true
-      else
-        prize = (showstuff['prizeCents'] / 100).to_s
-        points = false
-      end
+      prize = "$#{(showstuff['prizeCents'] / 100).to_i.to_sc}"
+
+      prize = "$#{prize}\n#{showstuff['prizePoints']/1000000}M points" unless showstuff['prizePoints'].nil? || showstuff['prizePoints'].zero?
     rescue NoMethodError
       begin
         event.channel.send_embed do |embed|
@@ -64,11 +60,7 @@ module NextGame
         embed.footer = { text: 'Show Time' }
         embed.timestamp = Time.parse(showstuff['startTime'])
 
-        if points
-          embed.add_field(name: 'Prize', value: "#{prize.to_i.to_sc} points", inline: true)
-        else
-          embed.add_field(name: 'Prize', value: "$#{prize.to_i.to_sc}", inline: true)
-        end
+        embed.add_field(name: 'Prize', value: prize, inline: true)
         embed.add_field(name: 'Type', value: gametype, inline: true)
       end
     rescue Discordrb::Errors::NoPermission

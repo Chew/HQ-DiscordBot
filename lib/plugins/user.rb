@@ -31,6 +31,8 @@ module User
   end
 
   command(:user, aliases: [:stats], min_args: 0) do |event, *namearg|
+    msg = event.respond '<a:loading:393852367751086090> Getting user data <a:loading:393852367751086090>'
+
     keys = JSON.parse(File.read('keys.json'))
     name = namearg.join(' ') unless namearg.length.zero?
     user = BotUser.new(event.user.id)
@@ -71,13 +73,15 @@ module User
 
     if iddata.length.zero?
       begin
-        event.channel.send_embed do |embed|
-          embed.title = 'Error while searching for stats'
-          embed.colour = 'E6286E'
-          embed.description = 'Username not found.'
-        end
+        msg.edit(
+          '', Discordrb::Webhooks::Embed.new(
+                title: 'Error while searching for stats',
+                description: 'Username not found.',
+                color: 0xE6286E
+              )
+        )
       rescue Discordrb::Errors::NoPermission
-        event.respond 'That user doesn\'t exist!'
+        msg.edit 'That user doesn\'t exist!'
       end
       break
     end
@@ -116,7 +120,6 @@ module User
                else
                  'th'
                end
-      prefix = 'th' if wrank.to_s.length > 1
       hey = "#{wrank}#{prefix}"
     end
 
@@ -130,29 +133,14 @@ module User
              else
                'th'
              end
-    prefix = 'th' if arank.to_s.length > 1
     sup = "#{arank}#{prefix}"
 
     ranks += ["Weekly: #{hey}"]
     ranks += ["All-Time: #{sup}"]
 
-    # words = leader['total'] != leader['alltime']['total']
-
     amountwon = []
     # amountwon.push leader['alltime']['total']
     amountwon.push data['leaderboard']['total']
-
-    currency = if leader['total'].include? '£'
-                 '£'
-               elsif leader['total'].include? 'A$'
-                 'A$'
-               elsif leader['total'].include? '€'
-                 '€'
-               else
-                 '$'
-               end
-
-    centswords = leader['totalCents'] - leader['alltime']['total'].delete(currency).to_f * 100
 
     xp = []
     xp.push data['seasonXp'][0]['currentPoints']
@@ -162,7 +150,7 @@ module User
     xpshow = if xp[0] == (xp[0] + xp[1])
                'Max Points Achieved!'
              else
-               "Points: #{xp[0]} / #{xp[0] + xp[1]}"
+               "Points: #{xp[0].to_sc} / #{(xp[0] + xp[1]).to_sc}"
              end
 
     # amountwon.push "Words: #{currency}#{centswords / 100}" if words
@@ -184,12 +172,12 @@ module User
 
         embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
 
-        embed.add_field(name: 'Badges', value: "#{data['achievementCount']} badges", inline: true)
+        embed.add_field(name: 'Badges', value: "#{data['achievementCount']} / 33 badges", inline: true)
 
         embed.add_field(name: 'Ranking', value: ranks.join("\n"), inline: true) if showrank
 
         if xp[0].positive?
-          embed.add_field(name: 'XP', value: [
+          embed.add_field(name: 'Season XP', value: [
             "Level: #{xp[2]}",
             xpshow
           ].join("\n"), inline: true)
@@ -213,6 +201,7 @@ module User
         embed.timestamp = Time.parse(data['created'])
         embed.thumbnail = { url: data['avatarUrl'].to_s }
       end
+      msg.delete
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end

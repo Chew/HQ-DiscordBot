@@ -2,10 +2,7 @@ class BotUser
   def initialize(id)
     @id = id
     @helper = DbGeek.new
-    result = @helper.getuser(id)
-    result.each do |row|
-      @results = row
-    end
+    @results = @helper.getuser(id)
   end
 
   def exists?
@@ -86,5 +83,13 @@ class BotUser
 
   def donator=(updated)
     @helper.updateuser(@id, 'donator', updated.to_i)
+  end
+
+  def superspins?
+    @results['superspins'] == 1
+  end
+
+  def superspins=(updated)
+    @helper.updateuser(@id, 'superspins', updated.to_i)
   end
 end

@@ -185,8 +185,9 @@ module User
 
         if namearg.length.zero? && user.exists? && extra
           powerups = []
-          powerups.push("<:extra_life:515015386517995520> - #{data['lives']}") if profile.lives?
+          powerups.push("<:extra_life:515015386517995520> - #{data['items']['lives']}") if profile.lives?
           powerups.push("<:erasers:525522341111791626> - #{data['erase1s']}") if profile.erase1s?
+          powerups.push("<:erasers:525522341111791626> - #{data['items']['erase1s']}") if profile.superspins?
 
           embed.add_field(name: 'Power-Ups', value: powerups.join("\n"), inline: true) unless powerups.nil?
           if profile.streaks?

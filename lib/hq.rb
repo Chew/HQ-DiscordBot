@@ -77,6 +77,18 @@ Bot.server_delete do |event|
   end
 end
 
+def seconds_to_format(t)
+  t = Time.now.to_i - Time.at(t / 1000.to_f).to_i
+  mm, ss = t.divmod(60)
+  hh, mm = mm.divmod(60)
+  dd, hh = hh.divmod(24)
+  days = format("%d days, ", dd) if dd != 0
+  hours = format("%d hours, ", hh) if hh != 0
+  mins = format("%d minutes, ", mm) if mm != 0
+  secs = format('%d seconds', ss) if ss != 0
+  "#{days}#{hours}#{mins}#{secs}"
+end
+
 # Bot.message(contains: /'hq, '/) do |event|
 #  Commands.add
 #  puts "Command ran by #{event.user.distinct} (#{event.user.id}): #{event.message.content}"

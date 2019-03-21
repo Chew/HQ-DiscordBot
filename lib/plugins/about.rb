@@ -159,4 +159,20 @@ module About
       event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end
   end
+
+  command(:load) do |event|
+    break unless CONFIG['owner_id'] == event.user.id
+
+    data = JSON.parse(RestClient.get(CONFIG['web_loc']))
+
+    event.channel.send_embed do |embed|
+      embed.title = "HQ Bot Server Load Average"
+
+      data['processes'].each do |process|
+        next if process['name'] != 'ruby run'
+
+        embed.add_field(name: "Bot \##{process['pm_id']}", value: ["CPU: #{process['monit']['cpu']}%", "Memory #{(process['monit']['memory'].to_f / 1000000).round(2)} MB", "Uptime: #{seconds_to_format(process['pm2_env']['created_at'])}"].join("\n"), inline: true)
+      end
+    end
+  end
 end

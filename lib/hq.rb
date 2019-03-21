@@ -36,7 +36,7 @@ end
 Scheduler.in '10h' do
   puts "Restarting the bot..."
   sleep 1
-  exec("ruby run.rb #{Bot.shard_key[0]}")
+  exec("pm2 restart #{Bot.shard_key[0]}")
 end
 
 loadpls
@@ -88,7 +88,7 @@ puts 'Done loading plugins! Finalizing start-up'
 hosts = ['Scott Rogowsky', 'Matt Richards', 'Sarah Pribis', 'David Magidoff', 'Tyler West', 'Lauren Gambino', 'Sharon Carpenter', 'Beric Livingstone', 'Emma Tattenbaum', 'Anna Roisman', 'Sian Welby', 'Leonie Zeumer', 'Lara Falkner', 'Kathryn Goldsmith', 'Jimmy Kimmel', "Charlie O'Connor", 'Alexandra Maurer', 'James Veitch', 'Neil Patrick Harris']
 
 Bot.ready do |_event|
-  bot.game = "with #{hosts.sample}! | hq, help"
+  Bot.game = "with #{hosts.sample}! | hq, help"
   sleep 180
   redo
 end

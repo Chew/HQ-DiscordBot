@@ -20,7 +20,7 @@ ServerManager = Servers.new(CONFIG['shards'])
 Scheduler = Rufus::Scheduler.new
 
 def loadpls
-  Bots.each(&:clear!)
+  Bot.clear!
   Dir["#{File.dirname(__FILE__)}/plugins/*.rb"].each do |wow|
     load wow
     require wow
@@ -28,9 +28,7 @@ def loadpls
     command = bob[0][7..bob[0].length]
     command.delete!("\n")
     command = Object.const_get(command)
-    Bots.each do |bot|
-      bot.include! command
-    end
+    Bot.include! command
     puts "Plugin #{command} successfully loaded!"
   end
 end
@@ -38,70 +36,63 @@ end
 Scheduler.in '10h' do
   puts "Restarting the bot..."
   sleep 1
-  exec("ruby run.rb")
+  exec("ruby run.rb #{Bot.shard_key[0]}")
 end
 
 loadpls
 
-Bots.each do |bot|
-  bot.command(:reload) do |event|
-    break unless event.user.id == CONFIG['owner_id']
+Bot.command(:reload) do |event|
+  break unless event.user.id == CONFIG['owner_id']
 
-    loadpls
-    event.respond 'Reloaded sucessfully!'
-  end
-
-  bot.server_create do |event|
-    ServerManager.post(event.bot.servers.count, event.bot.shard_key[0])
-    event.bot.channel(471_092_848_238_788_608).send_embed do |e|
-      e.title = 'I did a join'
-
-      e.add_field(name: 'Server Name', value: event.server.name, inline: true)
-      e.add_field(name: 'Server ID', value: event.server.id, inline: true)
-      e.add_field(name: 'Server Count', value: event.bot.servers.count, inline: true)
-      e.add_field(name: 'Shard', value: event.bot.shard_key[0].to_s, inline: true)
-      e.add_field(name: 'User Count', value: event.server.members.count, inline: true)
-
-      e.color = '00FF00'
-    end
-  end
-
-  bot.server_delete do |event|
-    ServerManager.post(event.bot.servers.count, event.bot.shard_key[0])
-    event.bot.channel(471_092_848_238_788_608).send_embed do |e|
-      e.title = 'I did a leave'
-
-      e.add_field(name: 'Server Name', value: event.server.name, inline: true)
-      e.add_field(name: 'Server ID', value: event.server.id, inline: true)
-      e.add_field(name: 'Server Count', value: event.bot.servers.count, inline: true)
-      e.add_field(name: 'Shard', value: event.bot.shard_key[0].to_s, inline: true)
-
-      e.color = 'FF0000'
-    end
-  end
-
-  # Bot.message(contains: /'hq, '/) do |event|
-  #  Commands.add
-  #  puts "Command ran by #{event.user.distinct} (#{event.user.id}): #{event.message.content}"
-  #  nil
-  # end
-
-  puts 'Done loading plugins! Finalizing start-up'
-
-  hosts = ['Scott Rogowsky', 'Matt Richards', 'Sarah Pribis', 'David Magidoff', 'Tyler West', 'Lauren Gambino', 'Sharon Carpenter', 'Beric Livingstone', 'Emma Tattenbaum', 'Anna Roisman', 'Sian Welby', 'Leonie Zeumer', 'Lara Falkner', 'Kathryn Goldsmith', 'Jimmy Kimmel', "Charlie O'Connor", 'Alexandra Maurer', 'James Veitch', 'Neil Patrick Harris']
-
-  bot.ready do |_event|
-    bot.game = "with #{hosts.sample}! | hq, help"
-    sleep 180
-    redo
-  end
-
-  puts 'Bot is ready!'
+  loadpls
+  event.respond 'Reloaded sucessfully!'
 end
 
-Bots.each do |bot|
-  bot.run(:async)
+Bot.server_create do |event|
+  ServerManager.post(event.bot.servers.count, event.bot.shard_key[0])
+  event.bot.channel(471_092_848_238_788_608).send_embed do |e|
+    e.title = 'I did a join'
+
+    e.add_field(name: 'Server Name', value: event.server.name, inline: true)
+    e.add_field(name: 'Server ID', value: event.server.id, inline: true)
+    e.add_field(name: 'Server Count', value: event.bot.servers.count, inline: true)
+    e.add_field(name: 'Shard', value: event.bot.shard_key[0].to_s, inline: true)
+    e.add_field(name: 'User Count', value: event.server.members.count, inline: true)
+
+    e.color = '00FF00'
+  end
 end
 
-loop do
+Bot.server_delete do |event|
+  ServerManager.post(event.bot.servers.count, event.bot.shard_key[0])
+  event.bot.channel(471_092_848_238_788_608).send_embed do |e|
+    e.title = 'I did a leave'
+
+    e.add_field(name: 'Server Name', value: event.server.name, inline: true)
+    e.add_field(name: 'Server ID', value: event.server.id, inline: true)
+    e.add_field(name: 'Server Count', value: event.bot.servers.count, inline: true)
+    e.add_field(name: 'Shard', value: event.bot.shard_key[0].to_s, inline: true)
+
+    e.color = 'FF0000'
+  end
 end
+
+# Bot.message(contains: /'hq, '/) do |event|
+#  Commands.add
+#  puts "Command ran by #{event.user.distinct} (#{event.user.id}): #{event.message.content}"
+#  nil
+# end
+
+puts 'Done loading plugins! Finalizing start-up'
+
+hosts = ['Scott Rogowsky', 'Matt Richards', 'Sarah Pribis', 'David Magidoff', 'Tyler West', 'Lauren Gambino', 'Sharon Carpenter', 'Beric Livingstone', 'Emma Tattenbaum', 'Anna Roisman', 'Sian Welby', 'Leonie Zeumer', 'Lara Falkner', 'Kathryn Goldsmith', 'Jimmy Kimmel', "Charlie O'Connor", 'Alexandra Maurer', 'James Veitch', 'Neil Patrick Harris']
+
+Bot.ready do |_event|
+  bot.game = "with #{hosts.sample}! | hq, help"
+  sleep 180
+  redo
+end
+
+puts 'Bot is ready!'
+
+Bot.run

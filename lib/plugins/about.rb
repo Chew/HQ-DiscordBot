@@ -97,7 +97,7 @@ module About
         e.title = 'HQ Trivia Bot Stats!'
 
         e.add_field(name: 'Author', value: event.bot.user(CONFIG['owner_id']).distinct, inline: true)
-        e.add_field(name: 'Code', value: '[Code on GitHub](http://github.com/Chewsterchew/HQ-DiscordBot)', inline: true)
+        e.add_field(name: 'Code', value: '[Code on GitHub](http://github.com/Chew/HQ-DiscordBot)', inline: true)
         e.add_field(name: 'Bot Version', value: botversion, inline: true) unless botversion == ''
         e.add_field(name: 'Library', value: 'discordrb 3.3.0', inline: true)
         e.add_field(name: 'Uptime', value: "#{days}#{hours}#{mins}#{secs}", inline: true)
@@ -115,11 +115,10 @@ module About
   command(:servers) do |event|
     servers = []
     counts = []
-    Bots.each do |bot|
-      servers.push "Shard \##{bot.shard_key[0]}: #{bot.servers.count} servers"
-      counts.push bot.servers.count
+    DBL.self.shards.each_with_index do |serv, e|
+      servers.push "Shard \##{e}: #{serv} servers"
+      counts.push serv
     end
-    bol = ServerManager.updateall(counts) if event.user.id == CONFIG['owner_id']
     servers.push ''
     servers.push "Total: #{counts.sum}"
     servers.push "Average: #{counts.average}"

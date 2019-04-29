@@ -214,6 +214,7 @@ module User
         embed.description = e
       end
       Raven.capture_exception(e)
+      nil
     end
   end
 end

@@ -204,7 +204,7 @@ module User
         end
         msg.delete
       rescue Discordrb::Errors::NoPermission
-        event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
+        event.respond 'Hey! It\'s me, money-flippin\' Matt Richards! I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
       end
     rescue StandardError => e
       puts "Error"

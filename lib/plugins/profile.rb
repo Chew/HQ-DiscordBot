@@ -56,7 +56,7 @@ module Profile
         embed.footer = { text: 'Change with: hq, set [type] [option]' }
       end
     rescue Discordrb::Errors::NoPermission
-      event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
+      event.respond 'Hey! It\'s me, money-flippin\' Matt Richards! I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end
   end
 

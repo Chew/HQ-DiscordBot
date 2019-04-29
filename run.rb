@@ -4,7 +4,6 @@ require 'json'
 require 'yaml'
 require 'open-uri'
 require 'dblruby'
-require 'mysql2'
 require 'rufus-scheduler'
 require 'coinbase/wallet'
 require "sentry-raven"

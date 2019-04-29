@@ -7,6 +7,7 @@ require 'dblruby'
 require 'mysql2'
 require 'rufus-scheduler'
 require 'coinbase/wallet'
+require "sentry-raven"
 puts 'All dependencies loaded'
 
 CONFIG = YAML.load_file('config.yaml')
@@ -18,6 +19,10 @@ puts 'Properly Instantiated DBL!'
 prefixes = ["<@#{CONFIG['client_id']}>", 'hq,', 'HQ,', 'hq', 'HQ', 'Hq', 'Hq,'].freeze
 
 Client = Coinbase::Wallet::Client.new(api_key: CONFIG['cb_api'], api_secret: CONFIG['cb_secret'])
+
+Raven.configure do |config|
+  config.dsn = CONFIG['raven']
+end
 
 Bot = Discordrb::Commands::CommandBot.new(token: CONFIG['token'],
                                           client_id: CONFIG['client_id'],

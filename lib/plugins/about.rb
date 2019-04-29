@@ -128,8 +128,6 @@ module About
 
         e.description = servers.join("\n")
         e.color = '36399A'
-
-        e.footer = { text: 'Posting stats failed!' } if !bol.nil? && bol == false
       end
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey, Scott Rogowsky here. I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'

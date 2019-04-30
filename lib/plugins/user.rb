@@ -83,7 +83,7 @@ module User
         rescue Discordrb::Errors::NoPermission
           msg.edit 'That user doesn\'t exist!'
         end
-        break
+        next
       end
 
       id = iddata[0]['userId']
@@ -213,6 +213,8 @@ module User
         embed.title = "Command `hq, user` Errored"
         embed.description = e
       end
+      Raven.user_context(id: event.user.id)
+      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id)
       Raven.capture_exception(e)
       nil
     end

@@ -34,7 +34,7 @@ def loadpls
 end
 
 Scheduler.in '10h' do
-  puts "Restarting the bot..."
+  puts 'Restarting the bot...'
   sleep 1
   exec("pm2 restart #{Bot.shard_key[0]}")
 end
@@ -82,9 +82,9 @@ def seconds_to_format(t)
   mm, ss = t.divmod(60)
   hh, mm = mm.divmod(60)
   dd, hh = hh.divmod(24)
-  days = format("%d days, ", dd) if dd != 0
-  hours = format("%d hours, ", hh) if hh != 0
-  mins = format("%d minutes, ", mm) if mm != 0
+  days = format('%d days, ', dd) if dd != 0
+  hours = format('%d hours, ', hh) if hh != 0
+  mins = format('%d minutes, ', mm) if mm != 0
   secs = format('%d seconds', ss) if ss != 0
   "#{days}#{hours}#{mins}#{secs}"
 end
@@ -97,7 +97,9 @@ end
 
 puts 'Done loading plugins! Finalizing start-up'
 
-hosts = ['Scott Rogowsky', 'Matt Richards', 'Sarah Pribis', 'David Magidoff', 'Tyler West', 'Lauren Gambino', 'Sharon Carpenter', 'Beric Livingstone', 'Emma Tattenbaum', 'Anna Roisman', 'Sian Welby', 'Leonie Zeumer', 'Lara Falkner', 'Kathryn Goldsmith', 'Jimmy Kimmel', "Charlie O'Connor", 'Alexandra Maurer', 'James Veitch', 'Neil Patrick Harris']
+hosts = [
+  'Scott Rogowsky', 'Matt Richards', 'Sarah Pribis', 'David Magidoff', 'Tyler West', 'Lauren Gambino', 'Sharon Carpenter', 'Beric Livingstone', 'Emma Tattenbaum', 'Anna Roisman', 'Sian Welby', 'Leonie Zeumer', 'Lara Falkner', 'Kathryn Goldsmith', 'Jimmy Kimmel', "Charlie O'Connor", 'Alexandra Maurer', 'James Veitch', 'Neil Patrick Harris', 'Calise Hawkins'
+]
 
 Bot.ready do |_event|
   Bot.game = "with #{hosts.sample}! | hq, help"

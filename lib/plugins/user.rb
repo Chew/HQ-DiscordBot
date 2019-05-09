@@ -35,32 +35,33 @@ module User
     begin
       keys = JSON.parse(File.read('keys.json'))
       name = namearg.join(' ') unless namearg.length.zero?
-      user = BotUser.new(event.user.id)
-      if user.exists? && namearg.length.zero?
-        profile = user
-        name = profile.username
-      elsif namearg.length.zero?
-        name = event.user.display_name
-      end
-
       key = CONFIG['api']
-
       extra = false
-      if namearg.length.zero? && user.exists? && profile.authkey?
-        extra = true
-        key = keys[profile.keyid]
+      if namearg.empty?
+        user = BotUser.new(event.user.id)
+        if user.exists?
+          profile = user
+          name = profile.username
+        else
+          name = event.user.display_name
+        end
 
-        teste = RestClient.get('https://api-quiz.hype.space/users/me',
-                               Authorization: key,
-                               'x-hq-client': 'iOS/1.3.27 b121',
-                               'Content-Type': :json)
+        if user.exists? && profile.authkey?
+          extra = true
+          key = keys[profile.keyid]
 
-        teste = JSON.parse(teste)
+          teste = RestClient.get('https://api-quiz.hype.space/users/me',
+                                 Authorization: key,
+                                 'x-hq-client': 'iOS/1.3.27 b121',
+                                 'Content-Type': :json)
 
-        unless teste['username'].casecmp(profile.username).zero?
-          key = CONFIG['api']
-          extra = false
-          event.respond 'Auth key doesn\'t match your profile username, not returning any extra stats!'
+          teste = JSON.parse(teste)
+
+          unless teste['username'].casecmp(profile.username).zero?
+            key = CONFIG['api']
+            extra = false
+            event.respond 'Auth key doesn\'t match your profile username, not returning any extra stats!'
+          end
         end
       end
 
@@ -207,14 +208,14 @@ module User
         event.respond 'Hey! It\'s me, money-flippin\' Matt Richards! I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
       end
     rescue StandardError => e
-      puts "Error"
-      msg.edit "<:xmark:314349398824058880> Error occured getting stats. This incident has been reported. Join the support server with `hq, invite`"
-      event.bot.channel(572532026125582336).send_embed do |embed|
-        embed.title = "Command `hq, user` Errored"
+      puts 'Error'
+      msg.edit '<:xmark:314349398824058880> Error occured getting stats. This incident has been reported. Join the support server with `hq, invite`'
+      event.bot.channel(572_532_026_125_582_336).send_embed do |embed|
+        embed.title = 'Command `hq, user` Errored'
         embed.description = e
       end
       Raven.user_context(id: event.user.id)
-      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id)
+      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content)
       Raven.capture_exception(e)
       nil
     end

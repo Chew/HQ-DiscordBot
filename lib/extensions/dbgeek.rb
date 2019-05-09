@@ -28,6 +28,6 @@ class DbGeek
   end
 
   def getallvotes
-    JSON.parse(RestClient.get("https://stats.hqtrivia.pro/api/votes", Authorization: CONFIG['sta_api'])).each {}
+    JSON.parse(RestClient.get('https://stats.hqtrivia.pro/api/votes', Authorization: CONFIG['sta_api'])).each {}
   end
 end

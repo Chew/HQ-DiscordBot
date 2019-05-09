@@ -6,7 +6,7 @@ module Restart
       event.respond "Sorry kiddo, you can't restart the bot!"
       break
     end
-    event.respond "Restarting the bot..."
+    event.respond 'Restarting the bot...'
     sleep 1
     exec("pm2 restart #{Bot.shard_key[0]}")
   end

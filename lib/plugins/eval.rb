@@ -15,12 +15,12 @@ module Eval
         e.description = evaluated.to_s
         e.color = '00FF00'
       end
-    rescue StandardError, ScriptError => f
-      event.channel.send_embed do |e|
-        e.title = '**Evaluation Failed!**'
+    rescue StandardError, ScriptError => e
+      event.channel.send_embed do |embed|
+        embed.title = '**Evaluation Failed!**'
 
-        e.description = f.to_s
-        e.color = 'FF0000'
+        embed.description = e.to_s
+        embed.color = 'FF0000'
       end
     end
   end

@@ -163,12 +163,12 @@ module About
     data = JSON.parse(RestClient.get(CONFIG['web_loc']))
 
     event.channel.send_embed do |embed|
-      embed.title = "HQ Bot Server Load Average"
+      embed.title = 'HQ Bot Server Load Average'
 
       data['processes'].each do |process|
         next if process['name'] != 'ruby run'
 
-        embed.add_field(name: "Bot \##{process['pm_id']}", value: ["CPU: #{process['monit']['cpu']}%", "Memory #{(process['monit']['memory'].to_f / 1000000).round(2)} MB", "Uptime: #{seconds_to_format(process['pm2_env']['created_at'])}"].join("\n"), inline: true)
+        embed.add_field(name: "Bot \##{process['pm_id']}", value: ["CPU: #{process['monit']['cpu']}%", "Memory #{(process['monit']['memory'].to_f / 1_000_000).round(2)} MB", "Uptime: #{seconds_to_format(process['pm2_env']['created_at'])}"].join("\n"), inline: true)
       end
     end
   end

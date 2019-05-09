@@ -3,7 +3,7 @@ module Crypto
 
   command(:crypto) do |event|
     if event.user.id != CONFIG['owner_id']
-      event.respond "Only Chew may see her coin count. Sorry!"
+      event.respond 'Only Chew may see her coin count. Sorry!'
       break
     end
 
@@ -13,7 +13,7 @@ module Crypto
     total = 0
 
     accounts.each do |account|
-      next if account['currency'] == "USD"
+      next if account['currency'] == 'USD'
       if values[account['currency']].nil?
         values[account['currency']] = Coin.new(account['currency'], account['balance']['amount'].to_f, account['native_balance']['amount'].to_f)
       else

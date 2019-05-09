@@ -1,8 +1,10 @@
+require: rubocop-performance
+
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
 Metrics/LineLength:
-  Max: 356
+  Enabled: false
 
 Security/Eval:
   Enabled: false
@@ -11,6 +13,9 @@ MethodLength:
   Enabled: false
 
 Style/RescueStandardError:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
   Enabled: false
 
 AllCops:

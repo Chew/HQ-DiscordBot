@@ -7,6 +7,8 @@ project:
 
 links:
     header:
+      - title: Online Stats
+        url: https://stats.hqtrivia.pro
       - title: GitHub
         url: https://github.com/Chewsterchew/HQ-DiscordBot
       - title: Support Server

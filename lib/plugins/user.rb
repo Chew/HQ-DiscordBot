@@ -215,7 +215,8 @@ module User
         embed.description = e
       end
       Raven.user_context(id: event.user.id)
-      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content)
+
+      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content, data: data)
       Raven.capture_exception(e)
       nil
     end

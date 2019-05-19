@@ -4,6 +4,7 @@ require_relative 'extensions/array'
 require_relative 'extensions/integer'
 require_relative 'extensions/float'
 
+require_relative 'extensions/coin'
 require_relative 'extensions/dbgeek'
 require_relative 'extensions/commandz'
 require_relative 'extensions/botuser'

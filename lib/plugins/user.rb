@@ -190,7 +190,7 @@ module User
             powerups.push("<:erasers:525522341111791626> - #{data['erase1s']}") if profile.erase1s?
             powerups.push("<:superspin:558466764250546197> - #{data['items']['superSpins']}") if profile.superspins?
 
-            embed.add_field(name: 'Power-Ups', value: powerups.join("\n"), inline: true) unless powerups.nil?
+            embed.add_field(name: 'Power-Ups', value: powerups.join("\n"), inline: true) unless powerups.empty?
             if profile.streaks?
               embed.add_field(name: 'Streak Info', value: [
                 "#{data['streakInfo']['target'] - data['streakInfo']['current']} days left",

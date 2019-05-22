@@ -9,7 +9,7 @@ module About
         embed.description = 'The HQ bot allows you to get statistics about the game!'
 
         embed.add_field(name: 'Commands', value: 'Command list can be found with `hq, commands`', inline: true)
-        embed.add_field(name: 'Invite me!', value: 'You can invite me to your server with [this link](https://discordapp.com/api/oauth2/authorize?client_id=463127758143225874&permissions=18432&scope=bot).', inline: true)
+        embed.add_field(name: 'Invite me!', value: 'You can invite me to your server with [this link](https://discordapp.com/oauth2/authorize?client_id=578544051901431821&permissions=18432&scope=bot).', inline: true)
         embed.add_field(name: 'Help Server', value: 'Click [me](https://discord.gg/59N3FcX) to join the help server.', inline: true)
         embed.add_field(name: 'More Bot Stats', value: 'Run `hq, info` to see more stats!', inline: true)
       end
@@ -61,6 +61,20 @@ module About
     end
   end
 
+  command(:donate) do |event|
+    begin
+      event.channel.send_embed do |embed|
+        embed.title = 'Donate to Chew!'
+
+        embed.description = 'I have various open donation windows.'
+
+        embed.add_field(name: 'Money', value: 'You can donate money [here](https://donate.chew.pw).')
+      end
+    rescue Discordrb::Errors::NoPermission
+      event.respond 'Hey! It\'s me, money-flippin\' Matt Richards! I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
+    end
+  end
+
   command(:ping, min_args: 0, max_args: 1) do |event, noedit|
     if noedit == 'noedit'
       event.respond "Pong! Time taken: #{((Time.now - event.timestamp) * 1000).to_i} milliseconds."
@@ -71,7 +85,7 @@ module About
   end
 
   command(:invite) do |event|
-    event.respond 'Hello! Invite me to your server here: <https://discordapp.com/api/oauth2/authorize?client_id=463127758143225874&permissions=18432&scope=bot>. Join my help server here: https://discord.gg/59N3FcX'
+    event.respond 'Hello! Invite me to your server here: <https://discordapp.com/oauth2/authorize?client_id=578544051901431821&permissions=18432&scope=bot>. Join my help server here: https://discord.gg/59N3FcX'
   end
 
   command(:info, aliases: [:bot]) do |event|

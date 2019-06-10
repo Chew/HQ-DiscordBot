@@ -38,7 +38,7 @@ class BotUser
   end
 
   def authkey?
-    @results['authkey'] == 1
+    @results['authkey']
   end
 
   def authkey=(updated)
@@ -46,7 +46,7 @@ class BotUser
   end
 
   def bughunter?
-    @results['bughunter'] == 1
+    @results['bughunter']
   end
 
   def bughunter=(updated)
@@ -54,7 +54,7 @@ class BotUser
   end
 
   def lives?
-    @results['lives'] == 1
+    @results['lives']
   end
 
   def lives=(updated)
@@ -62,7 +62,7 @@ class BotUser
   end
 
   def erase1s?
-    @results['erase1s'] == 1
+    @results['erase1s']
   end
 
   def erase1s=(updated)
@@ -70,7 +70,7 @@ class BotUser
   end
 
   def streaks?
-    @results['streaks'] == 1
+    @results['streaks']
   end
 
   def streaks=(updated)
@@ -78,7 +78,7 @@ class BotUser
   end
 
   def donator?
-    @results['donator'] == 1
+    @results['donator']
   end
 
   def donator=(updated)
@@ -86,7 +86,7 @@ class BotUser
   end
 
   def superspins?
-    @results['superspins'] == 1
+    @results['superspins']
   end
 
   def superspins=(updated)

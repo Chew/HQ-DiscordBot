@@ -11,7 +11,7 @@ class DbGeek
   end
 
   def getuser(id)
-    JSON.parse(RestClient.get("https://stats.hqtrivia.pro/api/user/#{id}", Authorization: CONFIG['sta_api'])).each {} [0]
+    JSON.parse(RestClient.get("https://stats.hqtrivia.pro/api/user/#{id}", Authorization: CONFIG['sta_api'])).each {}
   end
 
   def updateuser(id, item, value)

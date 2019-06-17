@@ -91,7 +91,7 @@ module User
 
       data = RestClient.get("https://api-quiz.hype.space/users/#{id}",
                             Authorization: key,
-                            'x-hq-client': 'iOS/1.3.27 b121',
+                            'x-hq-client': 'iOS/1.4.15 b146',
                             'Content-Type': :json)
 
       data = JSON.parse(data)

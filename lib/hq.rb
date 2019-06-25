@@ -20,6 +20,8 @@ ServerManager = Servers.new(CONFIG['shards'])
 
 Scheduler = Rufus::Scheduler.new
 
+HQ = HQTrivia.new(CONFIG['api'])
+
 def loadpls
   Bot.clear!
   Dir["#{File.dirname(__FILE__)}/plugins/*.rb"].each do |wow|

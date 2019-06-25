@@ -65,7 +65,8 @@ module User
         end
       end
 
-      findid = RestClient.get("https://api-quiz.hype.space/users?q=#{name}",
+      findid = RestClient.get('https://api-quiz.hype.space/users',
+                              params: { q: name },
                               Authorization: key,
                               'Content-Type': :json)
 

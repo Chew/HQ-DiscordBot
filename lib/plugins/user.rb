@@ -207,7 +207,7 @@ module User
 
       Raven.user_context(id: event.user.id)
 
-      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content, data: data)
+      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content, data: data, key: key)
       Raven.capture_exception(e)
       nil
     rescue StandardError => e
@@ -219,7 +219,7 @@ module User
       end
       Raven.user_context(id: event.user.id)
 
-      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content, data: data)
+      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content, data: data, key: key)
       Raven.capture_exception(e)
       nil
     end

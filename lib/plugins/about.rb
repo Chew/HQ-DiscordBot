@@ -111,14 +111,14 @@ module About
         e.title = 'HQ Trivia Bot Stats!'
 
         e.add_field(name: 'Author', value: event.bot.user(CONFIG['owner_id']).distinct, inline: true)
-        e.add_field(name: 'Code', value: '[Code on GitHub](http://github.com/Chew/HQ-DiscordBot)', inline: true)
+        e.add_field(name: 'Code', value: '[Code on GitHub](https://github.com/Chew/HQ-DiscordBot)', inline: true)
         e.add_field(name: 'Bot Version', value: botversion, inline: true) unless botversion == ''
         e.add_field(name: 'Library', value: 'discordrb 3.3.0', inline: true)
         e.add_field(name: 'Uptime', value: "#{days}#{hours}#{mins}#{secs}", inline: true)
-        e.add_field(name: 'Server Count', value: DBL.stats.servers, inline: true) unless CONFIG['dbotsorg'].nil?
+        e.add_field(name: 'Server Count', value: event.bot.servers.count, inline: true)
         # e.add_field(name: 'Commands Ran', value: Commands.get, inline: true)
         e.add_field(name: 'Total User Count', value: event.bot.users.count, inline: true)
-        e.add_field(name: 'Shard', value: event.bot.shard_key[0], inline: true)
+        # e.add_field(name: 'Shard', value: event.bot.shard_key[0], inline: true)
         e.color = '36399A'
       end
     rescue Discordrb::Errors::NoPermission

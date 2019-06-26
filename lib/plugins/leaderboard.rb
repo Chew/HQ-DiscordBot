@@ -35,13 +35,7 @@ module Leaderboard
 
     game = ('hq-words' if words)
 
-    leaders = RestClient.get('https://api-quiz.hype.space/users/leaderboard',
-                             params: { mode: type, type: game },
-                             Authorization: CONFIG['api'],
-                             'x-hq-stk': region[2],
-                             'Content-Type': :json)
-
-    leaders = JSON.parse(leaders)
+    leaders = HT.get("users/leaderboard?mode=#{URI.encode_www_form_component(type)}&type=#{URI.encode_www_form_component(game)}")
 
     leadernames = []
     leadermoney = []

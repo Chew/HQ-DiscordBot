@@ -27,12 +27,9 @@ module Badges
 
     key = CONFIG['api']
 
-    findid = RestClient.get('https://api-quiz.hype.space/users',
-                            params: { q: name },
-                            Authorization: key,
-                            'Content-Type': :json)
+    findid = HT.get("users?q=#{URI.encode_www_form_component(name)}", key)
 
-    iddata = JSON.parse(findid)['data']
+    iddata = findid['data']
 
     if iddata.length.zero?
       begin
@@ -49,17 +46,9 @@ module Badges
 
     id = iddata[0]['userId']
 
-    data = RestClient.get("https://api-quiz.hype.space/achievements/v2/#{id}",
-                          Authorization: key,
-                          'Content-Type': :json)
+    data = HT.get("achievements/v2/#{id}", key)
 
-    data = JSON.parse(data)
-
-    username = RestClient.get("https://api-quiz.hype.space/users/#{id}",
-                              Authorization: key,
-                              'Content-Type': :json)
-
-    username = JSON.parse(username)['username']
+    username = HT.get("users/#{id}", key)['username']
 
     # families = %w[Business Celebrity Geography History Literature Movie Music Nature Science Sports TV]
 

@@ -5,12 +5,9 @@ module User
     name = namearg.join(' ') unless namearg.length.zero?
     key = CONFIG['api']
 
-    findid = RestClient.get('https://api-quiz.hype.space/users',
-                            params: { q: name },
-                            Authorization: key,
-                            'Content-Type': :json)
+    findid = HT.get("users?q=#{URI.encode_www_form_component(name)}", key)
 
-    iddata = JSON.parse(findid)['data']
+    iddata = findid['data']
 
     if iddata.length.zero?
       begin
@@ -50,12 +47,7 @@ module User
           extra = true
           key = keys[profile.keyid]
 
-          teste = RestClient.get('https://api-quiz.hype.space/users/me',
-                                 Authorization: key,
-                                 'x-hq-client': 'iOS/1.4.15 b146',
-                                 'Content-Type': :json)
-
-          teste = JSON.parse(teste)
+          teste = HT.get("users/me", key)
 
           unless teste['username'].casecmp(profile.username).zero?
             key = CONFIG['api']
@@ -65,12 +57,9 @@ module User
         end
       end
 
-      findid = RestClient.get('https://api-quiz.hype.space/users',
-                              params: { q: name },
-                              Authorization: key,
-                              'Content-Type': :json)
+      findid = HT.get("users?q=#{URI.encode_www_form_component(name)}", key)
 
-      iddata = JSON.parse(findid)['data']
+      iddata = findid['data']
 
       if iddata.length.zero?
         begin
@@ -89,20 +78,19 @@ module User
 
       id = iddata[0]['userId']
 
-      data = if extra
-               HQTrivia.new(key).me
-             else
-               HQ.user(id)
-             end
+      data = HT.get("users/#{id}", key)
 
-      leader = data.leaderboard
+      leader = data['leaderboard']
 
-      wrank = leader.weekly_rank
-      arank = leader.alltime_rank
+      wrank = leader['weekly']['rank']
+      arank = leader['alltime']['rank']
 
       showrank = !(wrank == arank && wrank == 101)
 
       ranks = []
+
+      wrank = leader['weekly']['rank']
+      arank = leader['alltime']['rank']
 
       if wrank == 101
         hey = 'No wins this week'
@@ -137,12 +125,12 @@ module User
 
       amountwon = []
       # amountwon.push leader['alltime']['total']
-      amountwon.push leader.total
+      amountwon.push data['leaderboard']['total']
 
       xp = []
-      xp.push data.season_xp.current_points
-      xp.push data.season_xp.remaining_points || 0
-      xp.push data.season_xp.current_level
+      xp.push data['seasonXp'][0]['currentPoints']
+      xp.push data['seasonXp'][0]['remainingPoints'] || 0
+      xp.push data['seasonXp'][0]['currentLevel']['level']
 
       xpshow = if xp[0] == (xp[0] + xp[1])
                  'Max Points Achieved!'
@@ -154,22 +142,22 @@ module User
 
       begin
         event.channel.send_embed do |embed|
-          embed.author = { name: "User stats for #{data.username}", url: "https://stats.hqtrivia.pro/user/#{data.username}" }
+          embed.author = { name: "User stats for #{data['username']}", url: "https://stats.hqtrivia.pro/user/#{data['username']}" }
           embed.colour = '36399A'
 
           embed.add_field(name: 'Game Stats', value: [
-            "Games Played - #{data.games_played}",
-            "Win Count - #{data.win_count}"
+            "Games Played - #{data['gamesPlayed']}",
+            "Win Count - #{data['winCount']}"
           ].join("\n"), inline: true)
 
-          unclaimed = leader.unclaimed
+          unclaimed = data['leaderboard']['unclaimed']
           amountwon.push [" (#{unclaimed} unclaimed)"] unless ['$0', '£0', '€0', 'A$0'].include? unclaimed
 
           embed.add_field(name: 'Amount Won', value: amountwon.join("\n"), inline: true)
 
-          embed.add_field(name: 'High Score', value: "#{data.high_score} questions", inline: true)
+          embed.add_field(name: 'High Score', value: "#{data['highScore']} questions", inline: true)
 
-          embed.add_field(name: 'Badges', value: "#{data.badges_count} / 33 badges", inline: true)
+          embed.add_field(name: 'Badges', value: "#{data['achievementCount']} / 33 badges", inline: true)
 
           embed.add_field(name: 'Ranking', value: ranks.join("\n"), inline: true) if showrank
 
@@ -182,45 +170,37 @@ module User
 
           if namearg.length.zero? && user.exists? && extra
             powerups = []
-            powerups.push("<:extra_life:515015386517995520> - #{data.lives}") if profile.lives?
-            powerups.push("<:erasers:525522341111791626> - #{data.erasers}") if profile.erase1s?
-            powerups.push("<:superspin:558466764250546197> - #{data.super_spins}") if profile.superspins?
+            powerups.push("<:extra_life:515015386517995520> - #{data['items']['lives']}") if profile.lives?
+            powerups.push("<:erasers:525522341111791626> - #{data['erase1s']}") if profile.erase1s?
+            powerups.push("<:superspin:558466764250546197> - #{data['items']['superSpins']}") if profile.superspins?
 
             embed.add_field(name: 'Power-Ups', value: powerups.join("\n"), inline: true) unless powerups.empty?
             if profile.streaks?
               embed.add_field(name: 'Streak Info', value: [
-                "#{data.streak_info.target - data.streak_info.current} days left",
-                "#{data.streak_info.total} total streak"
+                "#{data['streakInfo']['target'] - data['streakInfo']['current']} days left",
+                "#{data['streakInfo']['total']} total streak"
               ].join("\n"), inline: true)
             end
           end
 
           embed.footer = { text: 'Account created on' }
-          embed.timestamp = data.created
-          embed.thumbnail = { url: data.avatar_url }
+          embed.timestamp = Time.parse(data['created'])
+          embed.thumbnail = { url: data['avatarUrl'].to_s }
         end
         msg.delete
       rescue Discordrb::Errors::NoPermission
         event.respond 'Hey! It\'s me, money-flippin\' Matt Richards! I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
       end
-    rescue RestClient::Forbidden => e
-      msg.edit '<:xmark:314349398824058880> 403 Forbidden Error occured getting stats. This incident has been reported. Join the support server with `hq, invite`'
-
-      Raven.user_context(id: event.user.id)
-
-      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content, data: data, key: key)
-      Raven.capture_exception(e)
-      nil
     rescue StandardError => e
       puts 'Error'
-      msg.edit '<:xmark:314349398824058880> Unknown Error occured getting stats. This incident has been reported. Join the support server with `hq, invite`'
+      msg.edit '<:xmark:314349398824058880> Error occured getting stats. This incident has been reported. Join the support server with `hq, invite`'
       event.bot.channel(572_532_026_125_582_336).send_embed do |embed|
         embed.title = 'Command `hq, user` Errored'
         embed.description = e
       end
       Raven.user_context(id: event.user.id)
 
-      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content, data: data, key: key)
+      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content, data: data)
       Raven.capture_exception(e)
       nil
     end

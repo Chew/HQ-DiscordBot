@@ -10,13 +10,7 @@ module NextGame
     kind.push 'sports' if stuff.include? 'sports'
     kind.push 'words' if stuff.include? 'words'
 
-    data = RestClient.get('https://api-quiz.hype.space/shows/schedule',
-                          Authorization: CONFIG['api'],
-                          'x-hq-stk': 'MQ==',
-                          'x-hq-client': 'iOS/1.3.27 b121',
-                          'Content-Type': :json)
-
-    data = JSON.parse(data)
+    data = HT.get("shows/schedule", CONFIG['api'])
 
     # active = data['active']
 

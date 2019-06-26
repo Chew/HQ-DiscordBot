@@ -9,6 +9,7 @@ require_relative 'extensions/dbgeek'
 require_relative 'extensions/commandz'
 require_relative 'extensions/botuser'
 require_relative 'extensions/servers'
+require_relative 'extensions/httprequest'
 
 DBHelper = DbGeek.new
 
@@ -20,7 +21,7 @@ ServerManager = Servers.new(CONFIG['shards'])
 
 Scheduler = Rufus::Scheduler.new
 
-HQ = HQTrivia.new(CONFIG['api'])
+HT = HTTPRequest.new
 
 def loadpls
   Bot.clear!

@@ -92,4 +92,12 @@ class BotUser
   def superspins=(updated)
     @helper.updateuser(@id, 'superspins', updated.to_i)
   end
+
+  def coins?
+    @results['coins']
+  end
+
+  def coins=(updated)
+    @helper.updateuser(@id, 'coins', updated.to_i)
+  end
 end

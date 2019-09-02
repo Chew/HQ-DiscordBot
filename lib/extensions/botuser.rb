@@ -100,4 +100,8 @@ class BotUser
   def coins=(updated)
     @helper.updateuser(@id, 'coins', updated.to_i)
   end
+
+  def keyid
+    @results['keyid']
+  end
 end

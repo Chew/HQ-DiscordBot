@@ -7,6 +7,7 @@ require 'dblruby'
 require 'rufus-scheduler'
 require 'coinbase/wallet'
 require 'sentry-raven'
+require 'jwt'
 puts 'All dependencies loaded'
 
 CONFIG = YAML.load_file('config.yaml')

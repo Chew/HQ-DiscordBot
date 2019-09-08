@@ -11,7 +11,7 @@ module Votes
       event.channel.send_embed do |embed|
         embed.title = 'HQ Trivia Bot Voting'
         embed.colour = 0xd084
-        embed.url = 'https://discordbots.org/bot/hq/vote'
+        embed.url = 'https://discordbots.org/bot/578544051901431821/vote'
 
         embed.description = '[Find the top voters!](https://chew.pw/hqbot/votes)'
 
@@ -22,13 +22,13 @@ module Votes
         if event.bot.server(463_178_169_105_645_569).members.include? event.user
           embed.add_field(name: 'Your Current Vote Perks', value: 'None! (Yet!)', inline: true)
         else
-          embed.add_field(name: 'Your Current Vote Perks', value: 'Sorry, but you need to be on the [HQ Trivia Bot server](https://discord.gg/Wr2yawT) to get sweet perks.', inline: true)
+          embed.add_field(name: 'Your Current Vote Perks', value: 'Sorry, but you need to be on the [HQ Trivia Bot server](https://discord.gg/ugryabu) to get sweet perks.', inline: true)
         end
         unless CONFIG['dbotsorg'].nil?
           status = if DBL.stats.verifyvote(event.user.id)
                      'Nope! Thanks for voting :D'
                    else
-                     'Yes! [Vote](https://discordbots.org/bot/hq/vote) for perks!'
+                     'Yes! [Vote](https://discordbots.org/bot/578544051901431821/vote) for perks!'
                    end
           embed.add_field(name: 'Can vote now?', value: status, inline: true)
 

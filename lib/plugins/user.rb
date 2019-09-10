@@ -192,6 +192,8 @@ module User
       rescue Discordrb::Errors::NoPermission
         event.respond 'Hey! It\'s me, money-flippin\' Matt Richards! I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
       end
+    rescue RestClient::Forbidden
+      msg.edit '<:xmark:314349398824058880> Error occured getting stats: the bot is currently experiencing an outage on HQ\'s end. Join the support server with `hq, invite`'
     rescue StandardError => e
       puts 'Error'
       msg.edit '<:xmark:314349398824058880> Error occured getting stats. This incident has been reported. Join the support server with `hq, invite`'

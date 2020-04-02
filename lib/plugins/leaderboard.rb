@@ -35,7 +35,7 @@ module Leaderboard
 
     game = ('hq-words' if words)
 
-    leaders = HT.get("users/leaderboard?mode=#{URI.encode_www_form_component(type)}&type=#{URI.encode_www_form_component(game)}")
+    leaders = HT.get("users/leaderboard?mode=#{URI.encode_www_form_component(type)}&type=#{URI.encode_www_form_component(game)}", CONFIG['api'])
 
     leadernames = []
     leadermoney = []

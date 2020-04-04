@@ -40,7 +40,7 @@ end
 Scheduler.in '10h' do
   puts 'Restarting the bot...'
   sleep 1
-  exec("pm2 restart #{Bot.shard_key[0]}")
+  exit
 end
 
 loadpls

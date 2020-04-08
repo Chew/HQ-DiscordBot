@@ -35,15 +35,15 @@ module Question
     c2 = "#{data['question']['choice2']} - #{data['choices']['picked2']}"
     c3 = "#{data['question']['choice3']} - #{data['choices']['picked3']}"
     case cor
-    when '1'
+    when 1
       c1 = ':heavy_check_mark:' + c1
       c2 = ':x:' + c2
       c3 = ':x:' + c3
-    when '2'
+    when 2
       c1 = ':x:' + c1
       c2 = ':heavy_check_mark:' + c2
       c3 = ':x:' + c3
-    when '3'
+    when 3
       c1 = ':x:' + c1
       c2 = ':x:' + c2
       c3 = ':heavy_check_mark:' + c3

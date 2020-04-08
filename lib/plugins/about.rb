@@ -6,7 +6,7 @@ module About
       event.channel.send_embed do |embed|
         embed.title = 'Welcome to the HQ Discord Bot'
         embed.colour = '36399A'
-        embed.description = 'The HQ bot allows you to get statistics about the game!'
+        embed.description = "This bot allows you to get your statistics, view upcoming games, and more!\n\nThis bot is powered by [SkySilk Cloud Services](https://www.skysilk.com/ref/4PRQpuQraD)!"
 
         embed.add_field(name: 'Commands', value: 'Command list can be found with `hq, commands`', inline: true)
         embed.add_field(name: 'Invite me!', value: 'You can invite me to your server with [this link](https://discordapp.com/oauth2/authorize?client_id=578544051901431821&permissions=18432&scope=bot).', inline: true)

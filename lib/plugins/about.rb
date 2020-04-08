@@ -150,7 +150,7 @@ module About
 
   command(:lib) do |event|
     gems = `gem list`.split("\n")
-    libs = ['discordrb', 'rest-client', 'json', 'dblruby', 'coinbase', 'sentry-raven', 'rufus-scheduler']
+    libs = ['discordrb', 'rest-client', 'json', 'dblruby', 'sentry-raven', 'rufus-scheduler']
     versions = []
     libs.each do |name|
       version = gems[gems.index { |s| s.include?(name) }].split(' ')[1]

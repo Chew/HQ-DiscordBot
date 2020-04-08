@@ -39,20 +39,20 @@ module AuthKeyLife
           event.channel.send_embed do |embed|
             embed.title = 'Thank you for being an AuthKey donor!'
             embed.colour = 'E6286E'
-            embed.description = 'Unfortunantly it appears your key has expired!'
+            embed.description = 'Unfortunately it appears your key has expired!'
           end
         rescue Discordrb::Errors::NoPermission
-          event.respond 'Unfortunantly it appears your key has expired!'
+          event.respond 'Unfortunately it appears your key has expired!'
         end
       elsif data['error'] == 'not authorized'
         begin
           event.channel.send_embed do |embed|
             embed.title = 'Thank you for being an AuthKey donor!'
             embed.colour = 'E6286E'
-            embed.description = 'Unfortunantly you\'ve already claimed your free life this month!'
+            embed.description = 'Unfortunately you\'ve already claimed your free life this month!'
           end
         rescue Discordrb::Errors::NoPermission
-          event.respond 'Unfortunantly you\'ve already claimed your free life this month!'
+          event.respond 'Unfortunately you\'ve already claimed your free life this month!'
         end
       end
     else

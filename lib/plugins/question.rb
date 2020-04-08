@@ -12,7 +12,7 @@ module Question
       msg = 'What kind of question gives you less than 2 seconds to answer it?'
       delay = 2
     end
-    data = JSON.parse(RestClient.get('http://api.chew.pro/hq/random'))
+    data = JSON.parse(RestClient.get('https://api.chew.pro/hq/random'))
     m = event.channel.send_embed(msg) do |embed|
       embed.title = data['question']['question']
       embed.colour = 0x66e8a9
@@ -31,9 +31,9 @@ module Question
       sleep delay
     end
     cor = data['question']['correct']
-    c1 = data['question']['choice1'] + ' - ' + data['choices']['picked1']
-    c2 = data['question']['choice2'] + ' - ' + data['choices']['picked2']
-    c3 = data['question']['choice3'] + ' - ' + data['choices']['picked3']
+    c1 = "#{data['question']['choice1']}  - #{data['choices']['picked1']}"
+    c2 = "#{data['question']['choice2']} - #{data['choices']['picked2']}"
+    c3 = "#{data['question']['choice3']} - #{data['choices']['picked3']}"
     case cor
     when '1'
       c1 = ':heavy_check_mark:' + c1

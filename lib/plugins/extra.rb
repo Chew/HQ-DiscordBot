@@ -10,7 +10,7 @@ module Extra
   end
 
   command(:answer) do |event|
-    event.respond 'The answer is always 3 if Scott or Beric are hosting, always 2 if Matt is hosting, and if someone else is hosting just guess.'
+    event.respond 'Print the results of live question on HQ Trivia .ac (channel id).'
   end
 
   command(:epic) do |event|

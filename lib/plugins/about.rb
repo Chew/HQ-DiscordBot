@@ -6,13 +6,13 @@ module About
       event.channel.send_embed do |embed|
         embed.title = 'Welcome to the HQ Discord Bot'
         embed.colour = '36399A'
-        embed.description = "This bot allows you to get your statistics, view upcoming games, and more!\n\nThis bot is powered by [SkySilk Cloud Services](https://www.skysilk.com/ref/4PRQpuQraD)!"
+        embed.description = "This bot allows you to get your statistics, view upcoming games, and more!\n\nThis bot is powered by [TRIVIA HUNTER PRO](https://www.skysilk.com/ref/4PRQpuQraD)!"
 
         embed.add_field(name: 'Commands', value: 'Command list can be found with `hq, commands`', inline: true)
         embed.add_field(name: 'Invite me!', value: 'You can invite me to your server with [this link](https://discordapp.com/oauth2/authorize?client_id=578544051901431821&permissions=18432&scope=bot).', inline: true)
         embed.add_field(name: 'Help Server', value: 'Click [me](https://discord.gg/59N3FcX) to join the help server.', inline: true)
         embed.add_field(name: 'More Bot Stats', value: 'Run `hq, info` to see more stats!', inline: true)
-      end
+        embed.add_field(name: 'Hq live Answer', value: 'Run `hq, ans` to print the result of question!', inline: true) 
     rescue Discordrb::Errors::NoPermission
       event.respond 'Hey! It\'s me, money-flippin\' Matt Richards! I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
     end
@@ -30,6 +30,7 @@ module About
           '`hq, ping` - Ping the bot',
           '`hq, invite` - Invite the bot',
           '`hq, info` - Find stats on the bot',
+          '`hq, ans` - Print the results of the live question `.ac(channel id)`',
           '`hq, lib` - HQ Bot Open-Source Libraries',
           '`hq, votes` - See your votes!',
           '`hq, servers` - See HQ Bot server stats'

@@ -193,17 +193,15 @@ module User
         event.respond 'Hey! It\'s me, money-flippin\' Matt Richards! I need some memes, dreams, and the ability to embed links! You gotta grant me these permissions!'
       end
     rescue RestClient::Forbidden
-      msg.edit '<:xmark:314349398824058880> Error occured getting stats: the bot is currently experiencing an outage on HQ\'s end. Join the support server with `hq, invite`'
+      msg.edit '<:xmark:314349398824058880> Error occurred getting stats: the bot is currently experiencing an outage on HQ\'s end. Join the support server with `hq, invite`'
     rescue StandardError => e
+      puts e
+      puts e.backtrace
       puts 'Error'
-      msg.edit '<:xmark:314349398824058880> Error occured getting stats. This incident has been reported. Join the support server with `hq, invite`'
-      event.bot.channel(572_532_026_125_582_336).send_embed do |embed|
-        embed.title = 'Command `hq, user` Errored'
-        embed.description = e
-      end
+      msg.edit '<:xmark:314349398824058880> Error occurred getting stats. This incident has been reported. Join the support server with `hq, invite`'
       Raven.user_context(id: event.user.id)
 
-      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id, message: event.message.content, data: data)
+      Raven.extra_context(channel_id: event.channel.id, server_id: event.server.id || nil, message: event.message.content, data: data)
       Raven.capture_exception(e)
       nil
     end
